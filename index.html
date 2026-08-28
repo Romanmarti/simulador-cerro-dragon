@@ -4,18 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RECUPERANDO LA CUENCA - Simulador de Petróleo y Gas</title>
-  
-  <!-- Enlace a la hoja de estilos CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="game-container">
-    <!-- Fondo decorativo con rejilla tecnológica -->
     <div class="bg-grid"></div>
     <div class="glow-effect"></div>
 
-    <!-- PANTALLA 1: INICIAL -->
     <section id="startScreen" class="screen active">
       <div class="panel">
         <div class="badge">SIMULADOR DE PETRÓLEO Y GAS</div>
@@ -36,7 +32,6 @@
       </div>
     </section>
 
-    <!-- PANTALLA 2: NUEVA OPERACIÓN -->
     <section id="operationScreen" class="screen">
       <div class="panel">
         <div class="badge">ETAPA DE INICIO</div>
@@ -50,14 +45,12 @@
       </div>
     </section>
 
-    <!-- PANTALLA 3: CREACIÓN DE PERSONAJE Y EPP -->
     <section id="characterScreen" class="screen">
       <div class="panel panel-large">
         <div class="badge">FICHA DE PERSONAL - TÉCNICO DE CAMPO</div>
         <h2 class="subtitle">CREACIÓN DE PERSONAJE</h2>
         
         <form id="characterForm" onsubmit="return false;">
-          <!-- Datos Personales -->
           <div class="form-group">
             <label for="playerName" class="form-label">Nombre del Técnico/a:</label>
             <input type="text" id="playerName" class="form-input" placeholder="Ej: Alex" maxlength="25" autocomplete="off">
@@ -81,7 +74,6 @@
             </div>
           </div>
 
-          <!-- Selección de EPP -->
           <div class="epp-section">
             <div class="sub-badge">EQUIPO DE PROTECCIÓN PERSONAL (EPP)</div>
             <p class="epp-instruction">Seleccioná todo el equipamiento obligatorio para ingresar al yacimiento:</p>
@@ -133,18 +125,27 @@
       </div>
     </section>
 
-    <!-- CONTENEDOR PARA FUTURAS PANTALLAS -->
-    <section id="equipmentScreen" class="screen"></section>
+    <section id="equipmentScreen" class="screen">
+      <div class="panel">
+        <div class="badge">INGRESO AUTORIZADO</div>
+        <h2 class="subtitle" id="displayPlayerName">TÉCNICO DE CAMPO</h2>
+        <p class="description" id="displayPlayerDetails">EPP Verificado. Listo para la fase operacional.</p>
+        
+        <button id="btnEquipmentContinue" class="btn btn-primary" type="button">
+          <span>IR A EXPLORACIÓN</span>
+          <div class="btn-glow"></div>
+        </button>
+      </div>
+    </section>
+
     <section id="explorationScreen" class="screen"></section>
     <section id="drillingScreen" class="screen"></section>
     <section id="productionScreen" class="screen"></section>
     <section id="finalScreen" class="screen"></section>
 
-    <!-- TOAST / NOTIFICACIÓN SISTEMA -->
     <div id="toast" class="toast hidden"></div>
   </div>
 
-  <!-- Enlace al script de JavaScript -->
   <script src="script.js"></script>
 </body>
 </html>

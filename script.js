@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnStart = document.getElementById("btnStart");
   const btnContinue = document.getElementById("btnContinue");
   const btnSaveCharacter = document.getElementById("btnSaveCharacter");
+  const btnEquipmentContinue = document.getElementById("btnEquipmentContinue");
 
   // Evento: Click en COMENZAR
   if (btnStart) {
@@ -72,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Evento: Click en CONTINUAR (Pasa a la creación del personaje)
+  // Evento: Click en CONTINUAR
   if (btnContinue) {
     btnContinue.addEventListener("click", () => {
       Navigation.goTo(Navigation.screens.character);
@@ -88,9 +89,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const totalEppAvailable = document.querySelectorAll('input[name="epp"]').length;
 
       // Validación 1: Nombre
-      if (!nameInput.value.trim()) {
+      if (!nameInput || !nameInput.value.trim()) {
         showToast("Por favor, ingresá el nombre del técnico/a.");
-        nameInput.focus();
+        if (nameInput) nameInput.focus();
         return;
       }
 
@@ -111,10 +112,24 @@ document.addEventListener("DOMContentLoaded", () => {
       gameState.gender = genderInput.value;
       gameState.epp = Array.from(eppCheckboxes).map(cb => cb.value);
 
-      showToast(`¡Bienvenido/a, ${gameState.playerName}! Equipamiento verificado.`);
+      // Actualizar la pantalla de credencial de ingreso
+      const displayTitle = document.getElementById("displayPlayerName");
+      const displayDetails = document.getElementById("displayPlayerDetails");
       
-      // La siguiente pantalla (equipmentScreen) se llamará en la próxima etapa
-      console.log("Estado actualizado:", gameState);
+      if (displayTitle) displayTitle.textContent = `TÉCNICO/A: ${gameState.playerName.toUpperCase()}`;
+      if (displayDetails) displayDetails.textContent = `Género: ${gameState.gender} | EPP Verificado (${gameState.epp.length}/6 items)`;
+
+      showToast(`¡Bienvenido/a, ${gameState.playerName}! Equipamiento verificado.`);
+
+      // Navegar a la pantalla de equipamiento / confirmación
+      Navigation.goTo(Navigation.screens.equipment);
+    });
+  }
+
+  // Evento: Continuar hacia la etapa de exploración
+  if (btnEquipmentContinue) {
+    btnEquipmentContinue.addEventListener("click", () => {
+      showToast("La fase de exploración geográfica será la próxima etapa.");
     });
   }
 });
