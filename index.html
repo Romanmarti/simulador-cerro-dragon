@@ -6,6 +6,7 @@
   <title>RECUPERANDO LA CUENCA - Simulador de Petróleo y Gas</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Three.js para renderizado 3D ligero -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
@@ -14,6 +15,7 @@
     <div class="bg-grid"></div>
     <div class="glow-effect"></div>
 
+    <!-- PANTALLA 1: INICIAL -->
     <section id="startScreen" class="screen active">
       <div class="panel">
         <div class="badge">SIMULADOR DE PETRÓLEO Y GAS</div>
@@ -32,6 +34,7 @@
       </div>
     </section>
 
+    <!-- PANTALLA 2: NUEVA OPERACIÓN -->
     <section id="operationScreen" class="screen">
       <div class="panel">
         <div class="badge">ETAPA DE INICIO</div>
@@ -44,6 +47,7 @@
       </div>
     </section>
 
+    <!-- PANTALLA 3: CREACIÓN DE PERSONAJE -->
     <section id="characterScreen" class="screen">
       <div class="panel panel-large">
         <div class="badge">FICHA DE PERSONAL - TÉCNICO DE CAMPO</div>
@@ -119,6 +123,7 @@
       </div>
     </section>
 
+    <!-- PANTALLA 4: CONFIRMACIÓN DE INGRESO -->
     <section id="equipmentScreen" class="screen">
       <div class="panel">
         <div class="badge">INGRESO AUTORIZADO</div>
@@ -132,6 +137,7 @@
       </div>
     </section>
 
+    <!-- PANTALLA 5: EXPLORACIÓN GEOLÓGICA -->
     <section id="explorationScreen" class="screen">
       <div class="panel panel-large">
         <div class="badge">ETAPA 2: EXPLORACIÓN Y PROSPECCIÓN</div>
@@ -227,10 +233,11 @@
       </div>
     </section>
 
+    <!-- PANTALLA 6: MAPA CON IMAGEN PIXELADA Y POZOS SUPERPUESTOS -->
     <section id="fieldMapScreen" class="screen">
       <div class="panel panel-large">
         <div class="badge">ETAPA 3: DESARROLLO Y PRODUCCIÓN</div>
-        <h2 class="subtitle">MAPA TÁCTICO 2D - CUENCA DEL NOROESTE</h2>
+        <h2 class="subtitle">MAPA TÁCTICO - CUENCA DEL NOROESTE</h2>
 
         <div class="hud-stats">
           <div class="hud-item">
@@ -247,50 +254,44 @@
           </div>
         </div>
 
+        <!-- Ficha de Información del Nodo Seleccionado -->
         <div id="wellInfoBox" class="well-info-box">
-          <span class="info-tag">SELECCIONÁ UN NODO EN EL MAPA PIXELADO</span>
-          <p id="wellInfoText" class="info-details">Hacé clic sobre las coordenadas del mapa para ver los datos geológicos y perforar.</p>
+          <span class="info-tag">SELECCIONÁ UN POZO EN EL MAPA</span>
+          <p id="wellInfoText" class="info-details">Hacé clic sobre las miras del mapa para ver los datos geológicos y perforar.</p>
         </div>
 
-        <div class="pixel-map-container">
-          <div class="pixel-grid">
-            <div class="grid-cell mountain"></div>
-            <div class="grid-cell terrain"></div>
-            <div class="grid-cell well-cell" data-well="1">
-              <div class="well-pin"><i data-lucide="crosshair"></i></div>
-              <span class="well-tag">N-01</span>
-            </div>
-            <div class="grid-cell mountain"></div>
+        <!-- MAPA JPG DE FONDO CON POZOS SUPERPUESTOS -->
+        <div class="pixel-map-wrapper">
+          <img src="assets/cuencamap.jpg" alt="Mapa de la Cuenca del Noroeste" class="map-bg-img">
 
-            <div class="grid-cell well-cell" data-well="2">
-              <div class="well-pin"><i data-lucide="crosshair"></i></div>
-              <span class="well-tag">N-02</span>
-            </div>
-            <div class="grid-cell terrain"></div>
-            <div class="grid-cell terrain"></div>
-            <div class="grid-cell well-cell" data-well="3">
-              <div class="well-pin"><i data-lucide="crosshair"></i></div>
-              <span class="well-tag">N-03</span>
-            </div>
+          <!-- Marcadores de Pozos (Podés modificar top% y left% para ajustar su posición sobre la imagen) -->
+          <div class="well-marker" data-well="1" style="top: 25%; left: 42%;">
+            <div class="well-pin"><i data-lucide="crosshair"></i></div>
+            <span class="well-tag">N-01</span>
+          </div>
 
-            <div class="grid-cell terrain"></div>
-            <div class="grid-cell well-cell" data-well="4">
-              <div class="well-pin"><i data-lucide="crosshair"></i></div>
-              <span class="well-tag">N-04</span>
-            </div>
-            <div class="grid-cell mountain"></div>
-            <div class="grid-cell terrain"></div>
+          <div class="well-marker" data-well="2" style="top: 40%; left: 18%;">
+            <div class="well-pin"><i data-lucide="crosshair"></i></div>
+            <span class="well-tag">N-02</span>
+          </div>
 
-            <div class="grid-cell mountain"></div>
-            <div class="grid-cell terrain"></div>
-            <div class="grid-cell well-cell" data-well="5">
-              <div class="well-pin"><i data-lucide="crosshair"></i></div>
-              <span class="well-tag">N-05</span>
-            </div>
-            <div class="grid-cell mountain"></div>
+          <div class="well-marker" data-well="3" style="top: 48%; left: 75%;">
+            <div class="well-pin"><i data-lucide="crosshair"></i></div>
+            <span class="well-tag">N-03</span>
+          </div>
+
+          <div class="well-marker" data-well="4" style="top: 68%; left: 35%;">
+            <div class="well-pin"><i data-lucide="crosshair"></i></div>
+            <span class="well-tag">N-04</span>
+          </div>
+
+          <div class="well-marker" data-well="5" style="top: 80%; left: 62%;">
+            <div class="well-pin"><i data-lucide="crosshair"></i></div>
+            <span class="well-tag">N-05</span>
           </div>
         </div>
 
+        <!-- ACCIONES Y MEJORAS -->
         <div class="upgrades-grid">
           <div class="upgrade-card" id="upgTrepan">
             <i data-lucide="zap" class="upgrade-icon"></i>
@@ -313,7 +314,7 @@
 
         <div class="map-actions">
           <button id="btnDrillSelectedWell" class="btn btn-primary" type="button" disabled>
-            <span>PERFORAR NODO ($0 USD)</span>
+            <span>PERFORAR POZO ($0 USD)</span>
             <div class="btn-glow"></div>
           </button>
           
@@ -325,6 +326,7 @@
       </div>
     </section>
 
+    <!-- MODAL 3D -->
     <div id="modal3D" class="modal-overlay hidden">
       <div class="modal-content panel">
         <div class="badge">EQUIPAMIENTO DE SUPERFICIE</div>
@@ -345,13 +347,14 @@
       </div>
     </div>
 
+    <!-- PANTALLA GAME OVER -->
     <section id="gameOverScreen" class="screen">
       <div class="panel panel-danger">
         <div class="badge badge-danger">OPERACIÓN FALLIDA</div>
         <h1 class="title title-danger">GAME OVER</h1>
         <p class="subtitle" id="gameOverReason">POZO SECO</p>
         <p class="description" id="gameOverDetails">
-          La perforación falló. No se hallaron hidrocarburos comerciales.
+          La perforación resultó estéril. No se hallaron hidrocarburos comerciales.
         </p>
         <button id="btnRestart" class="btn btn-danger" type="button">
           <span>REINTENTAR OPERACIÓN</span>
@@ -360,6 +363,7 @@
       </div>
     </section>
 
+    <!-- PANTALLA DE VICTORIA -->
     <section id="victoryScreen" class="screen">
       <div class="panel panel-success">
         <div class="badge badge-success">¡MISIÓN CUMPLIDA!</div>

@@ -197,7 +197,7 @@ body {
   color: #00ff88;
 }
 
-/* Ficha del Nodo Seleccionado */
+/* Ficha del Pozo Seleccionado */
 .well-info-box {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--border-color);
@@ -220,88 +220,81 @@ body {
   margin-top: 2px;
 }
 
-/* MAPA PIXELADO 2D GRID */
-.pixel-map-container {
-  background: #060a0d;
+/* CONTENEDOR DEL MAPA CON IMAGEN Y POZOS */
+.pixel-map-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 750px;
+  margin: 0 auto 10px auto;
   border: 2px solid var(--border-color);
   border-radius: 6px;
-  padding: 8px;
-  margin-bottom: 8px;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+  background: #000;
 }
 
-.pixel-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-  aspect-ratio: 16 / 9;
-  max-height: 220px;
+.map-bg-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  image-rendering: pixelated; /* Renderizado nítido tipo Pixel Art */
+  filter: brightness(0.85) contrast(1.1);
 }
 
-.grid-cell {
-  border-radius: 4px;
-  position: relative;
+.well-marker {
+  position: absolute;
+  transform: translate(-50%, -50%); /* Centrado exacto sobre las coordenadas % */
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  image-rendering: pixelated;
-  transition: all 0.2s ease;
-}
-
-.grid-cell.mountain {
-  background: #141b22;
-  border: 1px dashed rgba(255, 255, 255, 0.05);
-}
-
-.grid-cell.terrain {
-  background: #0f171e;
-  border: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-.grid-cell.well-cell {
-  background: rgba(0, 229, 255, 0.05);
-  border: 1px solid var(--border-color);
   cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s ease;
 }
 
-.grid-cell.well-cell:hover {
-  background: rgba(0, 229, 255, 0.2);
-  border-color: var(--accent-cyan);
-  box-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+.well-marker:hover {
+  transform: translate(-50%, -50%) scale(1.15);
 }
 
-.grid-cell.well-cell.selected {
-  border-color: var(--primary-gold);
-  background: rgba(230, 184, 0, 0.15);
-}
-
-.grid-cell.well-cell.drilled {
-  background: rgba(0, 255, 136, 0.12);
-  border-color: #00ff88;
-  cursor: default;
-}
-
-.well-pin {
-  color: var(--accent-cyan);
+.well-marker .well-pin {
+  width: 28px;
+  height: 28px;
+  background: rgba(10, 15, 20, 0.85);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--accent-cyan);
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
 }
 
-.grid-cell.well-cell.drilled .well-pin {
-  color: #00ff88;
-}
-
-.grid-cell.well-cell.selected .well-pin {
-  color: var(--primary-gold);
-}
-
-.well-tag {
+.well-marker .well-tag {
   font-size: 0.65rem;
   font-weight: bold;
   color: #fff;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   margin-top: 2px;
+}
+
+.well-marker.selected .well-pin {
+  border-color: var(--primary-gold);
+  color: var(--primary-gold);
+  box-shadow: 0 0 12px rgba(230, 184, 0, 0.8);
+}
+
+.well-marker.drilled .well-pin {
+  border-color: #00ff88;
+  color: #00ff88;
+  background: rgba(0, 40, 20, 0.9);
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+}
+
+.well-marker.drilled {
+  cursor: default;
 }
 
 /* Grillas */

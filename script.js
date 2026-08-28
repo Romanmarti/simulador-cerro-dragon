@@ -1,6 +1,6 @@
 /**
  * RECUPERANDO LA CUENCA - Simulador Técnico Educativo
- * Mapa Pixelado 2D, Loop de Ingresos Pasivos y Visor 3D Three.js
+ * Mapa JPG con Nodos Interactivos, Loop de Ingresos Pasivos y Visor 3D Three.js
  */
 
 const gameState = {
@@ -13,7 +13,7 @@ const gameState = {
   executedMethods: [],
   pos: 0,
   
-  // Mapa Pixelado de 5 Pozos
+  // Mapa de 5 Pozos
   selectedWellId: null,
   drilledWellsCount: 0,
   incomePerSecond: 0,
@@ -200,16 +200,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Interacción Mapa Pixelado 2D
-  document.querySelectorAll(".grid-cell.well-cell").forEach(cell => {
-    cell.addEventListener("click", () => {
-      document.querySelectorAll(".grid-cell.well-cell").forEach(c => c.classList.remove("selected"));
+  // Interacción Mapa con Imagen JPG y Nodos
+  document.querySelectorAll(".well-marker").forEach(marker => {
+    marker.addEventListener("click", () => {
+      document.querySelectorAll(".well-marker").forEach(m => m.classList.remove("selected"));
       
-      const wellId = cell.dataset.well;
+      const wellId = marker.dataset.well;
       gameState.selectedWellId = wellId;
       const well = gameState.wellsData[wellId];
 
-      cell.classList.add("selected");
+      marker.classList.add("selected");
 
       let actualCost = well.cost;
       if (gameState.upgrades.trepan) actualCost *= 0.8;
@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnDrill = document.getElementById("btnDrillSelectedWell");
     if (!gameState.selectedWellId) {
       btnDrill.disabled = true;
-      btnDrill.querySelector("span").textContent = "SELECCIONÁ UN NODO";
+      btnDrill.querySelector("span").textContent = "SELECCIONÁ UN POZO";
       return;
     }
 
@@ -236,14 +236,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (well.drilled) {
       btnDrill.disabled = true;
-      btnDrill.querySelector("span").textContent = "NODO YA EN PRODUCCIÓN";
+      btnDrill.querySelector("span").textContent = "POZO YA EN PRODUCCIÓN";
     } else {
       btnDrill.disabled = gameState.budget < actualCost;
-      btnDrill.querySelector("span").textContent = `PERFORAR NODO ($${actualCost.toLocaleString()} USD)`;
+      btnDrill.querySelector("span").textContent = `PERFORAR POZO ($${actualCost.toLocaleString()} USD)`;
     }
   }
 
-  // Perforar Nodo Seleccionado
+  // Perforar Pozo Seleccionado
   document.getElementById("btnDrillSelectedWell").addEventListener("click", () => {
     if (!gameState.selectedWellId) return;
 
@@ -262,10 +262,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     gameState.incomePerSecond += addedIncome;
 
-    const activeCell = document.querySelector(`.grid-cell.well-cell[data-well="${gameState.selectedWellId}"]`);
-    if (activeCell) {
-      activeCell.classList.remove("selected");
-      activeCell.classList.add("drilled");
+    const activeMarker = document.querySelector(`.well-marker[data-well="${gameState.selectedWellId}"]`);
+    if (activeMarker) {
+      activeMarker.classList.remove("selected");
+      activeMarker.classList.add("drilled");
     }
 
     showToast(`¡Pozo N-0${gameState.selectedWellId} integrado a la red de producción!`);
@@ -334,16 +334,16 @@ function resetGame() {
     gameState.wellsData[key].drilled = false;
   }
 
-  document.querySelectorAll(".grid-cell.well-cell").forEach(cell => {
-    cell.classList.remove("drilled", "selected");
+  document.querySelectorAll(".well-marker").forEach(marker => {
+    marker.classList.remove("drilled", "selected");
   });
 
   document.querySelectorAll(".upgrade-card").forEach(c => c.classList.remove("bought"));
   document.querySelectorAll(".zone-card").forEach(c => c.classList.remove("selected"));
   document.querySelectorAll(".method-card").forEach(c => c.classList.remove("selected", "completed"));
 
-  document.querySelector(".info-tag").textContent = "SELECCIONÁ UN NODO EN EL MAPA PIXELADO";
-  document.getElementById("wellInfoText").textContent = "Hacé clic sobre las coordenadas del mapa para ver los datos geológicos y perforar.";
+  document.querySelector(".info-tag").textContent = "SELECCIONÁ UN POZO EN EL MAPA";
+  document.getElementById("wellInfoText").textContent = "Hacé clic sobre las miras del mapa para ver los datos geológicos y perforar.";
 
   updateHUD();
   Navigation.goTo(Navigation.screens.exploration);
