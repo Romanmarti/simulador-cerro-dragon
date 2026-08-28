@@ -1,46 +1,68 @@
-<div class="game-container">
-  <div class="bg-grid"></div>
-  <div class="glow-effect"></div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RECUPERANDO LA CUENCA - Simulador de Petróleo y Gas</title>
+  
+  <!-- Enlace a la hoja de estilos CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-  <section id="startScreen" class="screen active">
-    <div class="panel">
-      <div class="badge">SIMULADOR DE PETRÓLEO Y GAS</div>
-      <h1 class="title">RECUPERANDO LA CUENCA</h1>
-      <p class="description">
-        Tomá decisiones, explorá, perforá y recuperá la producción de la Cuenca del Noroeste.
-      </p>
-      
-      <button id="btnStart" class="btn btn-primary">
-        <span>COMENZAR</span>
-        <div class="btn-glow"></div>
-      </button>
+  <div class="game-container">
+    <!-- Fondo decorativo con rejilla tecnológica -->
+    <div class="bg-grid"></div>
+    <div class="glow-effect"></div>
 
-      <footer class="footer-info">
-        <span class="sub-badge">PROYECTO EDUCATIVO</span>
-        <p>"Una experiencia interactiva para conocer el mundo del Petróleo y Gas."</p>
-      </footer>
-    </div>
-  </section>
+    <!-- PANTALLA 1: INICIAL -->
+    <section id="startScreen" class="screen active">
+      <div class="panel">
+        <div class="badge">SIMULADOR DE PETRÓLEO Y GAS</div>
+        <h1 class="title">RECUPERANDO LA CUENCA</h1>
+        <p class="description">
+          Tomá decisiones, explorá, perforá y recuperá la producción de la Cuenca del Noroeste.
+        </p>
+        
+        <button id="btnStart" class="btn btn-primary">
+          <span>COMENZAR</span>
+          <div class="btn-glow"></div>
+        </button>
 
-  <section id="operationScreen" class="screen">
-    <div class="panel">
-      <div class="badge">ETAPA DE INICIO</div>
-      <h2 class="subtitle">NUEVA OPERACIÓN</h2>
-      <p class="description">Tu misión comienza aquí.</p>
-      
-      <button id="btnContinue" class="btn btn-primary">
-        <span>CONTINUAR</span>
-        <div class="btn-glow"></div>
-      </button>
-    </div>
-  </section>
+        <footer class="footer-info">
+          <span class="sub-badge">PROYECTO EDUCATIVO</span>
+          <p>"Una experiencia interactiva para conocer el mundo del Petróleo y Gas."</p>
+        </footer>
+      </div>
+    </section>
 
-  <section id="characterScreen" class="screen"></section>
-  <section id="equipmentScreen" class="screen"></section>
-  <section id="explorationScreen" class="screen"></section>
-  <section id="drillingScreen" class="screen"></section>
-  <section id="productionScreen" class="screen"></section>
-  <section id="finalScreen" class="screen"></section>
+    <!-- PANTALLA 2: NUEVA OPERACIÓN (Provisional) -->
+    <section id="operationScreen" class="screen">
+      <div class="panel">
+        <div class="badge">ETAPA DE INICIO</div>
+        <h2 class="subtitle">NUEVA OPERACIÓN</h2>
+        <p class="description">Tu misión comienza aquí.</p>
+        
+        <button id="btnContinue" class="btn btn-primary">
+          <span>CONTINUAR</span>
+          <div class="btn-glow"></div>
+        </button>
+      </div>
+    </section>
 
-  <div id="toast" class="toast hidden"></div>
-</div>
+    <!-- CONTENEDOR PARA FUTURAS PANTALLAS -->
+    <section id="characterScreen" class="screen"></section>
+    <section id="equipmentScreen" class="screen"></section>
+    <section id="explorationScreen" class="screen"></section>
+    <section id="drillingScreen" class="screen"></section>
+    <section id="productionScreen" class="screen"></section>
+    <section id="finalScreen" class="screen"></section>
+
+    <!-- TOAST / NOTIFICACIÓN SISTEMA -->
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <!-- Enlace al script de JavaScript (al final del body para asegurar la carga del DOM) -->
+  <script src="script.js"></script>
+</body>
+</html>
