@@ -66,21 +66,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnSaveCharacter = document.getElementById("btnSaveCharacter");
   const btnEquipmentContinue = document.getElementById("btnEquipmentContinue");
 
-  // Evento: Click en COMENZAR
+  // Evento: Click en COMENZAR (Pasa a Nueva Operación)
   if (btnStart) {
     btnStart.addEventListener("click", () => {
       Navigation.goTo(Navigation.screens.operation);
     });
   }
 
-  // Evento: Click en CONTINUAR
+  // Evento: Click en CONTINUAR (Pasa de Nueva Operación a Creación de Personaje)
   if (btnContinue) {
     btnContinue.addEventListener("click", () => {
       Navigation.goTo(Navigation.screens.character);
     });
   }
 
-  // Evento: Guardar Personaje y EPP
+  // Evento: Guardar Personaje y EPP (Pasa a Confirmación de Ingreso)
   if (btnSaveCharacter) {
     btnSaveCharacter.addEventListener("click", () => {
       const nameInput = document.getElementById("playerName");
@@ -107,12 +107,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Guardar en el Estado Global
+      // Guardar datos en el Estado Global
       gameState.playerName = nameInput.value.trim();
       gameState.gender = genderInput.value;
       gameState.epp = Array.from(eppCheckboxes).map(cb => cb.value);
 
-      // Actualizar la pantalla de credencial de ingreso
+      // Actualizar datos de pantalla de confirmación
       const displayTitle = document.getElementById("displayPlayerName");
       const displayDetails = document.getElementById("displayPlayerDetails");
       
@@ -121,12 +121,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       showToast(`¡Bienvenido/a, ${gameState.playerName}! Equipamiento verificado.`);
 
-      // Navegar a la pantalla de equipamiento / confirmación
+      // Avanzar a la pantalla de ingreso autorizado
       Navigation.goTo(Navigation.screens.equipment);
     });
   }
 
-  // Evento: Continuar hacia la etapa de exploración
+  // Evento: Continuar hacia la próxima etapa de exploración (Provisional)
   if (btnEquipmentContinue) {
     btnEquipmentContinue.addEventListener("click", () => {
       showToast("La fase de exploración geográfica será la próxima etapa.");
