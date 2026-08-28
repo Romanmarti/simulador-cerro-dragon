@@ -102,7 +102,7 @@ body {
 }
 
 .panel-large {
-  max-width: 650px;
+  max-width: 750px;
   width: 100%;
 }
 
@@ -154,7 +154,117 @@ body {
   color: var(--text-muted);
   font-size: 1rem;
   line-height: 1.5;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+}
+
+/* HUD Stats */
+.hud-stats {
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--accent-cyan);
+}
+
+/* Tarjetas de Zonas de Exploración */
+.zones-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.zone-card {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 15px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.zone-card:hover {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
+}
+
+.zone-card.selected {
+  background: rgba(0, 229, 255, 0.12);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+}
+
+.zone-card h3 {
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.zone-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.zone-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--text-main);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 8px;
+}
+
+/* Reporte Sísmico */
+.seismic-result {
+  background: rgba(230, 184, 0, 0.1);
+  border: 1px solid var(--primary-gold);
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+  text-align: left;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.seismic-result.hidden {
+  display: none;
+}
+
+.seismic-result h4 {
+  color: var(--primary-gold);
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+
+.seismic-result p {
+  font-size: 0.85rem;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+.exploration-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 }
 
 /* Formularios y Campos */
@@ -307,7 +417,7 @@ body {
   font-weight: 800;
   font-size: 1.1rem;
   letter-spacing: 1.5px;
-  padding: 16px 40px;
+  padding: 16px 30px;
   border-radius: 4px;
   cursor: pointer;
   overflow: hidden;
@@ -318,18 +428,29 @@ body {
   z-index: 4;
 }
 
-.btn:hover {
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.btn:hover:not(:disabled) {
   background: linear-gradient(135deg, var(--primary-gold-hover), var(--primary-gold));
   box-shadow: 0 0 20px rgba(230, 184, 0, 0.4);
   transform: translateY(-2px);
 }
 
-.btn:active {
+.btn:active:not(:disabled) {
   transform: translateY(1px);
 }
 
 .btn > * {
   pointer-events: none;
+}
+
+.btn.hidden {
+  display: none;
 }
 
 /* Pie de panel */
@@ -370,8 +491,16 @@ body {
   transform: translate(-50%, 20px);
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Responsive */
-@media (max-width: 600px) {
+@media (max-width: 700px) {
+  .zones-grid {
+    grid-template-columns: 1fr;
+  }
   .title {
     font-size: 1.6rem;
   }
@@ -381,10 +510,10 @@ body {
   .btn {
     width: 100%;
   }
-  .epp-grid {
-    grid-template-columns: 1fr;
-  }
   .gender-options {
+    flex-direction: column;
+  }
+  .exploration-actions {
     flex-direction: column;
   }
 }

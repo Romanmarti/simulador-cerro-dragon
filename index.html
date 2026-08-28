@@ -138,7 +138,65 @@
       </div>
     </section>
 
-    <section id="explorationScreen" class="screen"></section>
+    <section id="explorationScreen" class="screen">
+      <div class="panel panel-large">
+        <div class="badge">ETAPA 2: EXPLORACIÓN Y GEOLOGÍA</div>
+        <h2 class="subtitle">CUENCA DEL NOROESTE</h2>
+        <p class="description">Seleccioná un área para realizar estudios sísmicos y prospección de reservorios.</p>
+        
+        <div class="hud-stats">
+          <span class="stat-label">PRESUPUESTO DISPONIBLE:</span>
+          <span id="hudBudget" class="stat-value">$500,000 USD</span>
+        </div>
+
+        <div class="zones-grid">
+          <div class="zone-card" data-zone="aguarague">
+            <h3>Yacimiento Aguaragüe</h3>
+            <p class="zone-desc">Formación de areniscas profundas. Trampas anticlinales estructurales.</p>
+            <div class="zone-info">
+              <span>Riesgo: <strong>Medio</strong></span>
+              <span>Costo Estudio: <strong>$120,000 USD</strong></span>
+            </div>
+          </div>
+
+          <div class="zone-card" data-zone="ramos">
+            <h3>Área Ramos</h3>
+            <p class="zone-desc">Zona históricamente productora de gas natural y condensado.</p>
+            <div class="zone-info">
+              <span>Riesgo: <strong>Bajo</strong></span>
+              <span>Costo Estudio: <strong>$180,000 USD</strong></span>
+            </div>
+          </div>
+
+          <div class="zone-card" data-zone="acambuco">
+            <h3>Bloque Acambuco</h3>
+            <p class="zone-desc">Estructuras complejas y de alta presión en profundidad (Subandino).</p>
+            <div class="zone-info">
+              <span>Riesgo: <strong>Alto</strong></span>
+              <span>Costo Estudio: <strong>$150,000 USD</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div id="seismicResult" class="seismic-result hidden">
+          <h4 id="seismicTitle">REPORTE SÍSMICO 3D</h4>
+          <p id="seismicDetails"></p>
+        </div>
+
+        <div class="exploration-actions">
+          <button id="btnRunSeismic" class="btn btn-primary" type="button" disabled>
+            <span>REALIZAR ESTUDIO SÍSMICO</span>
+            <div class="btn-glow"></div>
+          </button>
+          
+          <button id="btnGoToDrilling" class="btn btn-primary hidden" type="button">
+            <span>IR A PERFORACIÓN</span>
+            <div class="btn-glow"></div>
+          </button>
+        </div>
+      </div>
+    </section>
+
     <section id="drillingScreen" class="screen"></section>
     <section id="productionScreen" class="screen"></section>
     <section id="finalScreen" class="screen"></section>
