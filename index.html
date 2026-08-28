@@ -1,181 +1,46 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cerro Dragón — Field Simulator</title>
-  
-  <!-- CSS de Leaflet (Mapas) -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="style.css">
+<div class="game-container">
+  <div class="bg-grid"></div>
+  <div class="glow-effect"></div>
 
-  <!-- Librerías JS Externas -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/draco/gltf/draco_decoder.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-</head>
-<body>
+  <section id="startScreen" class="screen active">
+    <div class="panel">
+      <div class="badge">SIMULADOR DE PETRÓLEO Y GAS</div>
+      <h1 class="title">RECUPERANDO LA CUENCA</h1>
+      <p class="description">
+        Tomá decisiones, explorá, perforá y recuperá la producción de la Cuenca del Noroeste.
+      </p>
+      
+      <button id="btnStart" class="btn btn-primary">
+        <span>COMENZAR</span>
+        <div class="btn-glow"></div>
+      </button>
 
-  <!-- Navegación Superior -->
-  <header class="navbar">
-    <div class="logo">CERRO DRAGÓN <span>SIMULATOR</span></div>
-    <nav class="nav-links">
-      <button class="nav-btn active" data-tab="tab-map">MAPA TOPOGRÁFICO</button>
-      <button class="nav-btn" data-tab="tab-subsurface">SUBSUPERFICIE 3D</button>
-      <button class="nav-btn" data-tab="tab-seismic">SÍSMICA 3D</button>
-      <button class="nav-btn" data-tab="tab-charts">GRÁFICOS</button>
-    </nav>
-  </header>
-
-  <!-- Panel de KPIs -->
-  <section class="kpi-bar">
-    <div class="kpi-card">
-      <span class="kpi-label">Presupuesto</span>
-      <span class="kpi-value" id="kpi-budget">$50.0M</span>
-    </div>
-    <div class="kpi-card">
-      <span class="kpi-label">Prod. Petróleo</span>
-      <span class="kpi-value" id="kpi-oil-prod">0 BOPD</span>
-    </div>
-    <div class="kpi-card">
-      <span class="kpi-label">Prod. Gas</span>
-      <span class="kpi-value" id="kpi-gas-prod">0 m³/d</span>
-    </div>
-    <div class="kpi-card">
-      <span class="kpi-label">Inyección Agua</span>
-      <span class="kpi-value" id="kpi-water-inj">0 BWPD</span>
-    </div>
-    <div class="kpi-card">
-      <span class="kpi-label">Tiempo</span>
-      <span class="kpi-value" id="kpi-time">AÑO 2026 - M01</span>
+      <footer class="footer-info">
+        <span class="sub-badge">PROYECTO EDUCATIVO</span>
+        <p>"Una experiencia interactiva para conocer el mundo del Petróleo y Gas."</p>
+      </footer>
     </div>
   </section>
 
-  <!-- Controles Principales -->
-  <div class="control-panel">
-    <button id="btn-step-month" class="btn btn-primary">+1 Mes</button>
-    <button id="btn-step-year" class="btn btn-primary">+1 Año</button>
-    <button id="btn-open-drill-modal" class="btn btn-success">Perforar Pozo</button>
-    <button id="btn-start-campaign" class="btn btn-warning">Iniciar Campaña (10 Años)</button>
-    
-    <div class="slider-group">
-      <label>Precio Petróleo (USD): <b id="oil-price-display">$75</b></label>
-      <input type="range" id="slider-oil-price" min="30" max="150" value="75">
+  <section id="operationScreen" class="screen">
+    <div class="panel">
+      <div class="badge">ETAPA DE INICIO</div>
+      <h2 class="subtitle">NUEVA OPERACIÓN</h2>
+      <p class="description">Tu misión comienza aquí.</p>
+      
+      <button id="btnContinue" class="btn btn-primary">
+        <span>CONTINUAR</span>
+        <div class="btn-glow"></div>
+      </button>
     </div>
+  </section>
 
-    <div class="reserves-box">
-      <span>Reservas Restantes: <b id="reserves-text">100 MMbbl</b></span>
-      <div class="progress-bar"><div id="reserves-bar" style="width: 100%;"></div></div>
-    </div>
-  </div>
+  <section id="characterScreen" class="screen"></section>
+  <section id="equipmentScreen" class="screen"></section>
+  <section id="explorationScreen" class="screen"></section>
+  <section id="drillingScreen" class="screen"></section>
+  <section id="productionScreen" class="screen"></section>
+  <section id="finalScreen" class="screen"></section>
 
-  <!-- PESTAÑA 1: MAPA TOPOGRÁFICO -->
-  <main id="tab-map" class="tab-content active">
-    <div id="leaflet-map"></div>
-    <div class="topo-legend">
-      <h4>Elevación Terreno</h4>
-      <div class="legend-bar"></div>
-      <div class="legend-labels">
-        <span>0 m</span>
-        <span>250 m</span>
-        <span>500 m</span>
-        <span>750 m+</span>
-      </div>
-    </div>
-  </main>
-
-  <!-- PESTAÑA 2: SUBSUPERFICIE 3D -->
-  <main id="tab-subsurface" class="tab-content">
-    <div id="three-canvas-container"></div>
-  </main>
-
-  <!-- PESTAÑA 3: SÍSMICA 3D -->
-  <main id="tab-seismic" class="tab-content">
-    <div id="seismic-3d-container"></div>
-    <div class="seismic-controls">
-      <label>Corte Transversal (Slice X):</label>
-      <input type="range" id="seismic-slice-x" min="0" max="100" value="50">
-      <label>Corte Longitudinal (Slice Z):</label>
-      <input type="range" id="seismic-slice-z" min="0" max="100" value="50">
-    </div>
-  </main>
-
-  <!-- PESTAÑA 4: GRÁFICOS -->
-  <main id="tab-charts" class="tab-content">
-    <div class="charts-grid">
-      <div class="chart-container"><canvas id="chart-oil"></canvas></div>
-      <div class="chart-container"><canvas id="chart-gas"></canvas></div>
-      <div class="chart-container"><canvas id="chart-pressure"></canvas></div>
-      <div class="chart-container"><canvas id="chart-finance"></canvas></div>
-    </div>
-  </main>
-
-  <!-- Panel Lateral para Información y Gestión del Pozo Seleccionado -->
-  <aside id="well-side-panel" class="side-panel hidden">
-    <button id="close-well-panel" class="close-btn">&times;</button>
-    <h2 id="panel-well-name">Pozo --</h2>
-    <span id="panel-well-status" class="badge">--</span>
-    
-    <div class="panel-info">
-      <p><b>Tipo:</b> <span id="panel-well-type">--</span></p>
-      <p><b>Objetivo:</b> <span id="panel-well-target">--</span></p>
-      <p><b>Profundidad:</b> <span id="panel-well-depth">--</span></p>
-      <p><b>Petróleo:</b> <span id="panel-well-oil">--</span></p>
-      <p><b>Gas:</b> <span id="panel-well-gas">--</span></p>
-      <p><b>Presión Fondo:</b> <span id="panel-well-press">--</span></p>
-      <p><b>Costo OPEX:</b> <span id="panel-well-cost">--</span></p>
-      <p><b>Perforación:</b> <span id="panel-well-date">--</span></p>
-    </div>
-
-    <div id="injector-controls" class="hidden">
-      <hr>
-      <label>Tasa Inyección Agua (BWPD): <b id="val-water-rate">1000</b></label>
-      <input type="range" id="slider-water-rate" min="0" max="3000" step="100" value="1000">
-    </div>
-
-    <hr>
-    <div class="panel-actions">
-      <button id="btn-action-workover" class="btn btn-action">Estimulación / Workover ($500k)</button>
-      <button id="btn-action-convert" class="btn btn-action">Convertir a Inyector</button>
-      <button id="btn-action-abandon" class="btn btn-danger">Abandonar Pozo</button>
-    </div>
-  </aside>
-
-  <!-- Modal para Perforar Nuevo Pozo -->
-  <div id="modal-drill" class="modal-overlay hidden">
-    <div class="modal-card">
-      <button id="close-drill-modal" class="close-btn">&times;</button>
-      <h2>Perforar Nuevo Pozo</h2>
-      <form id="form-drill">
-        <label>Nombre del Pozo:</label>
-        <input type="text" id="drill-name" value="CD-" required>
-
-        <label>Tipo de Pozo:</label>
-        <select id="drill-type">
-          <option value="Convencional">Convencional ($2.5M)</option>
-          <option value="No Convencional">No Convencional / Fracking ($5.0M)</option>
-        </select>
-
-        <label>Formación Objetivo:</label>
-        <select id="drill-target">
-          <option value="Comodoro Rivadavia">Comodoro Rivadavia (Somero)</option>
-          <option value="D-129">D-129 (Profundo / Roca Madre)</option>
-        </select>
-
-        <button type="submit" class="btn btn-success btn-block">Iniciar Perforación</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Toast Notificaciones -->
-  <div id="event-toast" class="event-toast hidden">
-    <strong id="toast-title">NOTIFICACIÓN</strong>
-    <p id="toast-body">Detalles de la notificación aquí.</p>
-  </div>
-
-  <script src="script.js"></script>
-</body>
-</html>
+  <div id="toast" class="toast hidden"></div>
+</div>
