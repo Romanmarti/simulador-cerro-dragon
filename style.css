@@ -41,7 +41,7 @@ body {
   padding: 20px;
 }
 
-/* Efectos de fondo */
+/* Fondo decorativo */
 .bg-grid {
   position: absolute;
   top: 0;
@@ -68,7 +68,7 @@ body {
   pointer-events: none;
 }
 
-/* Manejo de Pantallas / Escenas */
+/* Pantallas */
 .screen {
   position: absolute;
   width: 100%;
@@ -88,13 +88,12 @@ body {
   pointer-events: auto;
 }
 
-/* Estilo Panel HUD */
 .panel {
   background: var(--panel-bg);
   border: 1px solid var(--border-color);
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(0, 229, 255, 0.05);
   border-radius: 8px;
-  padding: 40px 30px;
+  padding: 30px 25px;
   text-align: center;
   backdrop-filter: blur(10px);
   position: relative;
@@ -102,8 +101,10 @@ body {
 }
 
 .panel-large {
-  max-width: 750px;
+  max-width: 800px;
   width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
 }
 
 .panel::before {
@@ -116,14 +117,13 @@ body {
   background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
 }
 
-/* Tipografía y Textos */
 .badge {
   display: inline-block;
   font-size: 0.75rem;
   letter-spacing: 2px;
   color: var(--accent-cyan);
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   font-weight: 700;
 }
 
@@ -144,26 +144,35 @@ body {
 }
 
 .subtitle {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   color: var(--primary-gold);
   letter-spacing: 1px;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: 0.85rem;
+  color: var(--accent-cyan);
+  text-align: left;
+  margin-top: 15px;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .description {
   color: var(--text-muted);
-  font-size: 1rem;
-  line-height: 1.5;
-  margin-bottom: 20px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 15px;
 }
 
-/* HUD Stats */
 .hud-stats {
   background: rgba(0, 229, 255, 0.08);
   border: 1px solid var(--border-color);
   border-radius: 4px;
-  padding: 10px 15px;
-  margin-bottom: 20px;
+  padding: 8px 15px;
+  margin-bottom: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -181,19 +190,19 @@ body {
   color: var(--accent-cyan);
 }
 
-/* Tarjetas de Zonas de Exploración */
+/* Tarjetas de Zonas */
 .zones-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .zone-card {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--border-color);
   border-radius: 6px;
-  padding: 15px;
+  padding: 12px;
   text-align: left;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -201,45 +210,95 @@ body {
 
 .zone-card:hover {
   border-color: var(--accent-cyan);
-  box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
 }
 
 .zone-card.selected {
   background: rgba(0, 229, 255, 0.12);
   border-color: var(--accent-cyan);
-  box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.3);
 }
 
 .zone-card h3 {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #fff;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .zone-desc {
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  margin-bottom: 12px;
-  line-height: 1.3;
-}
-
-.zone-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
   font-size: 0.75rem;
-  color: var(--text-main);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 8px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  line-height: 1.2;
 }
 
-/* Reporte Sísmico */
+.zone-cost-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  color: var(--primary-gold);
+  font-weight: bold;
+}
+
+/* Tarjetas de Métodos Prospectivos */
+.methods-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.method-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 10px 12px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.method-card:hover {
+  border-color: var(--accent-cyan);
+}
+
+.method-card.selected {
+  background: rgba(230, 184, 0, 0.12);
+  border-color: var(--primary-gold);
+}
+
+.method-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--accent-cyan);
+  flex-shrink: 0;
+}
+
+.method-info h4 {
+  font-size: 0.82rem;
+  color: #fff;
+}
+
+.method-info p {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.method-info .price {
+  font-size: 0.75rem;
+  color: var(--primary-gold);
+  font-weight: bold;
+}
+
+/* Reporte de resultados */
 .seismic-result {
   background: rgba(230, 184, 0, 0.1);
   border: 1px solid var(--primary-gold);
   border-radius: 6px;
-  padding: 15px;
-  margin-bottom: 20px;
+  padding: 12px;
+  margin-bottom: 15px;
   text-align: left;
   animation: fadeIn 0.4s ease-in-out;
 }
@@ -250,26 +309,26 @@ body {
 
 .seismic-result h4 {
   color: var(--primary-gold);
-  font-size: 0.9rem;
-  margin-bottom: 6px;
-  letter-spacing: 1px;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
 }
 
 .seismic-result p {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-main);
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 .exploration-actions {
   display: flex;
   justify-content: center;
   gap: 15px;
+  margin-top: 10px;
 }
 
-/* Formularios y Campos */
+/* Formulario */
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   text-align: left;
 }
 
@@ -277,8 +336,7 @@ body {
   display: block;
   font-size: 0.85rem;
   color: var(--text-main);
-  margin-bottom: 8px;
-  letter-spacing: 0.5px;
+  margin-bottom: 6px;
 }
 
 .form-input {
@@ -286,21 +344,19 @@ body {
   background: rgba(0, 0, 0, 0.5);
   border: 1px solid var(--border-color);
   border-radius: 4px;
-  padding: 12px 16px;
+  padding: 10px 14px;
   color: #fff;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-family: var(--font-family);
   outline: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
   user-select: text;
 }
 
 .form-input:focus {
   border-color: var(--accent-cyan);
-  box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.2);
 }
 
-/* Selector de Género */
 .gender-options {
   display: flex;
   gap: 10px;
@@ -318,42 +374,39 @@ body {
 .radio-btn {
   display: block;
   text-align: center;
-  padding: 10px 5px;
+  padding: 8px 5px;
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--border-color);
   border-radius: 4px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
-  transition: all 0.3s ease;
 }
 
 .radio-card input:checked + .radio-btn {
   background: rgba(0, 229, 255, 0.15);
   border-color: var(--accent-cyan);
   color: #fff;
-  box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
 }
 
-/* Sección de EPP */
 .epp-section {
-  margin-top: 25px;
-  margin-bottom: 25px;
-  padding-top: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-top: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   text-align: left;
 }
 
 .epp-instruction {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
   margin-top: 4px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .epp-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 8px;
 }
 
 .epp-checkbox {
@@ -361,10 +414,9 @@ body {
   align-items: center;
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 10px;
+  padding: 8px;
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .epp-checkbox input {
@@ -376,15 +428,13 @@ body {
   height: 16px;
   border: 1px solid var(--text-muted);
   border-radius: 2px;
-  margin-right: 10px;
+  margin-right: 8px;
   position: relative;
-  transition: all 0.2s ease;
 }
 
 .epp-checkbox input:checked + .checkbox-custom {
   background: var(--accent-cyan);
   border-color: var(--accent-cyan);
-  box-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
 }
 
 .epp-checkbox input:checked + .checkbox-custom::after {
@@ -404,26 +454,25 @@ body {
 }
 
 .epp-label {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
 }
 
-/* Botones */
 .btn {
   position: relative;
   background: linear-gradient(135deg, var(--primary-gold), #b38f00);
   border: none;
   color: #000;
   font-weight: 800;
-  font-size: 1.1rem;
-  letter-spacing: 1.5px;
-  padding: 16px 30px;
+  font-size: 1rem;
+  letter-spacing: 1.2px;
+  padding: 14px 28px;
   border-radius: 4px;
   cursor: pointer;
   overflow: hidden;
   transition: all 0.2s ease;
   width: 100%;
-  max-width: 320px;
+  max-width: 300px;
   pointer-events: auto;
   z-index: 4;
 }
@@ -432,12 +481,11 @@ body {
   opacity: 0.4;
   cursor: not-allowed;
   box-shadow: none;
-  transform: none;
 }
 
 .btn:hover:not(:disabled) {
   background: linear-gradient(135deg, var(--primary-gold-hover), var(--primary-gold));
-  box-shadow: 0 0 20px rgba(230, 184, 0, 0.4);
+  box-shadow: 0 0 15px rgba(230, 184, 0, 0.4);
   transform: translateY(-2px);
 }
 
@@ -453,21 +501,19 @@ body {
   display: none;
 }
 
-/* Pie de panel */
 .footer-info {
-  margin-top: 35px;
-  padding-top: 20px;
+  margin-top: 25px;
+  padding-top: 15px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .footer-info p {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
   font-style: italic;
-  margin-top: 5px;
+  margin-top: 4px;
 }
 
-/* Notificación / Toast */
 .toast {
   position: fixed;
   bottom: 30px;
@@ -478,8 +524,7 @@ body {
   color: #fff;
   padding: 12px 24px;
   border-radius: 4px;
-  font-size: 0.9rem;
-  letter-spacing: 0.5px;
+  font-size: 0.85rem;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
   transition: opacity 0.3s ease, transform 0.3s ease;
   z-index: 10;
@@ -492,28 +537,12 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive */
 @media (max-width: 700px) {
-  .zones-grid {
+  .zones-grid, .methods-grid {
     grid-template-columns: 1fr;
-  }
-  .title {
-    font-size: 1.6rem;
-  }
-  .panel {
-    padding: 30px 20px;
-  }
-  .btn {
-    width: 100%;
-  }
-  .gender-options {
-    flex-direction: column;
-  }
-  .exploration-actions {
-    flex-direction: column;
   }
 }

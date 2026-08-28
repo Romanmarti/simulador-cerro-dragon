@@ -8,38 +8,61 @@ const gameState = {
   playerName: "",
   gender: "",
   epp: [],
-  budget: 500000, // Presupuesto inicial en USD
-  exploration: [],
+  budget: 1500000, // Presupuesto inicial incrementado ($1.5M USD)
   selectedZone: null,
-  selectedWell: null,
-  production: 0,
-  money: 0,
+  selectedMethod: null,
+  explorationHistory: [],
+  drillingCost: 0,
   currentScreen: "startScreen"
 };
 
-// Configuración de las zonas exploratorias
+// Datos de Zonas (Bloques)
 const ZONES_DATA = {
   aguarague: {
     name: "Yacimiento Aguaragüe",
-    cost: 120000,
-    risk: "Medio",
-    report: "Análisis sísmico exitoso. Se detecta una trampa estructural anticlinal en la Formación Huamampampa con alta probabilidad de acumulación de gas natural y condensado."
+    depth: 4200,
+    drillingCost: 1200000,
+    target: "Gas y Condensado (Formación Huamampampa)"
   },
   ramos: {
     name: "Área Ramos",
-    cost: 180000,
-    risk: "Bajo",
-    report: "Sismología 3D de alta resolución completada. Se confirman horizontes productivos tradicionales con excelente permeabilidad y bajo riesgo geológico."
+    depth: 2800,
+    drillingCost: 850000,
+    target: "Gas Natural (Formación Tupambi)"
   },
   acambuco: {
     name: "Bloque Acambuco",
-    cost: 150000,
-    risk: "Alto",
-    report: "Estructuras profundas identificadas. Presenta alta anomalía de amplitud sísmica (Bright Spot), lo que sugiere reservorio de alto impacto pero con presión extrema."
+    depth: 5100,
+    drillingCost: 1800000,
+    target: "Gas de Alta Presión (Formación Santa Rosa)"
   }
 };
 
-// 2. SISTEMA DE GESTIÓN DE PANTALLAS (Router/Scene Controller)
+// Datos de Métodos Prospectivos
+const METHODS_DATA = {
+  geoquimica: {
+    name: "Geoquímica de Superficie",
+    cost: 30000,
+    report: "Se detectaron anomalias de hidrocarburos ligeros (C1-C4) en muestras de suelo. Confirma la existencia de un sistema petrolero activo."
+  },
+  gravimetria: {
+    name: "Gravimetría / Magnetometría",
+    cost: 50000,
+    report: "El mapa de anomalías de gravedad del basamento sugiere un alto estructural promisor delimitado por fallas profundas."
+  },
+  sismica2d: {
+    name: "Sísmica 2D",
+    cost: 100000,
+    report: "Cortes 2D revelan una clara estructura anticlinal. Se observa una probable falla sellante en el flanco este."
+  },
+  sismica3d: {
+    name: "Sísmica 3D",
+    cost: 200000,
+    report: "Cubo 3D de alta resolución finalizado. Se identifica un 'Bright Spot' claro con cierre estructural definido. Precisión óptima para definir la locación del pozo exploratorio."
+  }
+};
+
+// 2. CONTROL DE NAVEGACIÓN
 const Navigation = {
   screens: {
     start: "startScreen",
@@ -70,7 +93,7 @@ const Navigation = {
   }
 };
 
-// 3. SISTEMA DE NOTIFICACIONES / TOAST
+// 3. TOAST Y HUD
 function showToast(message, duration = 3000) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
@@ -81,7 +104,6 @@ function showToast(message, duration = 3000) {
   }, duration);
 }
 
-// Actualizar visualización del presupuesto
 function updateBudgetUI() {
   const hudBudget = document.getElementById("hudBudget");
   if (hudBudget) {
@@ -91,6 +113,11 @@ function updateBudgetUI() {
 
 // 4. INICIALIZACIÓN Y EVENTOS
 document.addEventListener("DOMContentLoaded", () => {
+  // Inicializar iconos Lucide
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+
   const btnStart = document.getElementById("btnStart");
   const btnContinue = document.getElementById("btnContinue");
   const btnSaveCharacter = document.getElementById("btnSaveCharacter");
@@ -98,41 +125,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnRunSeismic = document.getElementById("btnRunSeismic");
   const btnGoToDrilling = document.getElementById("btnGoToDrilling");
 
-  // Evento: Click en COMENZAR
   if (btnStart) {
-    btnStart.addEventListener("click", () => {
-      Navigation.goTo(Navigation.screens.operation);
-    });
+    btnStart.addEventListener("click", () => Navigation.goTo(Navigation.screens.operation));
   }
 
-  // Evento: Click en CONTINUAR
   if (btnContinue) {
-    btnContinue.addEventListener("click", () => {
-      Navigation.goTo(Navigation.screens.character);
-    });
+    btnContinue.addEventListener("click", () => Navigation.goTo(Navigation.screens.character));
   }
 
-  // Evento: Guardar Personaje y EPP
   if (btnSaveCharacter) {
     btnSaveCharacter.addEventListener("click", () => {
       const nameInput = document.getElementById("playerName");
       const genderInput = document.querySelector('input[name="gender"]:checked');
       const eppCheckboxes = document.querySelectorAll('input[name="epp"]:checked');
-      const totalEppAvailable = document.querySelectorAll('input[name="epp"]').length;
 
       if (!nameInput || !nameInput.value.trim()) {
         showToast("Por favor, ingresá el nombre del técnico/a.");
-        if (nameInput) nameInput.focus();
         return;
       }
-
       if (!genderInput) {
         showToast("Por favor, seleccioná tu identidad/género.");
         return;
       }
-
-      if (eppCheckboxes.length < totalEppAvailable) {
-        showToast("¡Atención! Para ingresar al yacimiento debés colocar todo el EPP obligatorio.");
+      if (eppCheckboxes.length < 6) {
+        showToast("¡Atención! Debés colocar todo el EPP obligatorio.");
         return;
       }
 
@@ -151,7 +167,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Evento: Continuar a Exploración
   if (btnEquipmentContinue) {
     btnEquipmentContinue.addEventListener("click", () => {
       updateBudgetUI();
@@ -159,56 +174,61 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Selección de Tarjetas de Zona
+  // Selección de Zona
   const zoneCards = document.querySelectorAll(".zone-card");
   zoneCards.forEach(card => {
     card.addEventListener("click", () => {
       zoneCards.forEach(c => c.classList.remove("selected"));
       card.classList.add("selected");
-
-      const zoneKey = card.dataset.zone;
-      gameState.selectedZone = ZONES_DATA[zoneKey];
-
-      if (btnRunSeismic) {
-        btnRunSeismic.disabled = false;
-      }
+      gameState.selectedZone = ZONES_DATA[card.dataset.zone];
+      checkActionState();
     });
   });
 
-  // Evento: Realizar Estudio Sísmico
+  // Selección de Método Prospectivo
+  const methodCards = document.querySelectorAll(".method-card");
+  methodCards.forEach(card => {
+    card.addEventListener("click", () => {
+      methodCards.forEach(c => c.classList.remove("selected"));
+      card.classList.add("selected");
+      gameState.selectedMethod = METHODS_DATA[card.dataset.method];
+      checkActionState();
+    });
+  });
+
+  function checkActionState() {
+    if (btnRunSeismic) {
+      btnRunSeismic.disabled = !(gameState.selectedZone && gameState.selectedMethod);
+    }
+  }
+
+  // Ejecutar Estudio
   if (btnRunSeismic) {
     btnRunSeismic.addEventListener("click", () => {
-      if (!gameState.selectedZone) {
-        showToast("Por favor, seleccioná un área primero.");
-        return;
-      }
-
       const zone = gameState.selectedZone;
+      const method = gameState.selectedMethod;
 
-      if (gameState.budget < zone.cost) {
-        showToast("Presupuesto insuficiente para realizar el estudio sísmico en esta zona.");
+      if (gameState.budget < method.cost) {
+        showToast("Presupuesto insuficiente para este método prospectivo.");
         return;
       }
 
-      // Descontar costo y guardar exploración
-      gameState.budget -= zone.cost;
-      gameState.exploration.push(zone.name);
+      gameState.budget -= method.cost;
+      gameState.explorationHistory.push({ zone: zone.name, method: method.name });
       updateBudgetUI();
 
-      // Mostrar Reporte Sísmico
       const seismicResult = document.getElementById("seismicResult");
       const seismicTitle = document.getElementById("seismicTitle");
       const seismicDetails = document.getElementById("seismicDetails");
 
       if (seismicResult && seismicTitle && seismicDetails) {
-        seismicTitle.textContent = `REPORTE SÍSMICO 3D - ${zone.name.toUpperCase()}`;
-        seismicDetails.textContent = zone.report;
+        seismicTitle.textContent = `REPORTE: ${method.name.toUpperCase()} - ${zone.name.toUpperCase()}`;
+        seismicDetails.textContent = `${method.report} | Objetivo: ${zone.target}. Costo estimado de Perforación: $${zone.drillingCost.toLocaleString()} USD.`;
         seismicResult.classList.remove("hidden");
       }
 
-      showToast(`Estudio realizado en ${zone.name}. Presupuesto actualizado.`);
+      showToast(`Estudio ejecutado. Presupuesto restado: -$${method.cost.toLocaleString()} USD`);
 
-      // Habilitar siguiente etapa
       btnRunSeismic.classList.add("hidden");
       if (btnGoToDrilling) {
         btnGoToDrilling.classList.remove("hidden");
@@ -216,10 +236,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Evento: Ir a Perforación (Provisional)
+  // Avanzar a Perforación
   if (btnGoToDrilling) {
     btnGoToDrilling.addEventListener("click", () => {
-      showToast("La etapa de Perforación de Pozos será el próximo paso.");
+      showToast("Comienza la Etapa 3: Perforación del Pozo Exploratorio.");
     });
   }
 });

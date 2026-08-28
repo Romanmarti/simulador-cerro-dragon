@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RECUPERANDO LA CUENCA - Simulador de Petróleo y Gas</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
@@ -19,12 +20,10 @@
         <p class="description">
           Tomá decisiones, explorá, perforá y recuperá la producción de la Cuenca del Noroeste.
         </p>
-        
         <button id="btnStart" class="btn btn-primary" type="button">
           <span>COMENZAR</span>
           <div class="btn-glow"></div>
         </button>
-
         <footer class="footer-info">
           <span class="sub-badge">PROYECTO EDUCATIVO</span>
           <p>"Una experiencia interactiva para conocer el mundo del Petróleo y Gas."</p>
@@ -37,7 +36,6 @@
         <div class="badge">ETAPA DE INICIO</div>
         <h2 class="subtitle">NUEVA OPERACIÓN</h2>
         <p class="description">Tu misión comienza aquí.</p>
-        
         <button id="btnContinue" class="btn btn-primary" type="button">
           <span>CONTINUAR</span>
           <div class="btn-glow"></div>
@@ -84,31 +82,26 @@
                 <span class="checkbox-custom"></span>
                 <span class="epp-label">Casco de Seguridad</span>
               </label>
-
               <label class="epp-checkbox">
                 <input type="checkbox" name="epp" value="Calzado de seguridad">
                 <span class="checkbox-custom"></span>
                 <span class="epp-label">Calzado de Seguridad</span>
               </label>
-
               <label class="epp-checkbox">
                 <input type="checkbox" name="epp" value="Lentes de protección">
                 <span class="checkbox-custom"></span>
                 <span class="epp-label">Lentes de Protección</span>
               </label>
-
               <label class="epp-checkbox">
                 <input type="checkbox" name="epp" value="Guantes de trabajo">
                 <span class="checkbox-custom"></span>
                 <span class="epp-label">Guantes de Trabajo</span>
               </label>
-
               <label class="epp-checkbox">
                 <input type="checkbox" name="epp" value="Ropa ignífuga">
                 <span class="checkbox-custom"></span>
                 <span class="epp-label">Ropa Ignífuga</span>
               </label>
-
               <label class="epp-checkbox">
                 <input type="checkbox" name="epp" value="Protector auditivo">
                 <span class="checkbox-custom"></span>
@@ -140,57 +133,87 @@
 
     <section id="explorationScreen" class="screen">
       <div class="panel panel-large">
-        <div class="badge">ETAPA 2: EXPLORACIÓN Y GEOLOGÍA</div>
+        <div class="badge">ETAPA 2: EXPLORACIÓN GEOFÍSICA Y GEOQUÍMICA</div>
         <h2 class="subtitle">CUENCA DEL NOROESTE</h2>
-        <p class="description">Seleccioná un área para realizar estudios sísmicos y prospección de reservorios.</p>
         
         <div class="hud-stats">
           <span class="stat-label">PRESUPUESTO DISPONIBLE:</span>
-          <span id="hudBudget" class="stat-value">$500,000 USD</span>
+          <span id="hudBudget" class="stat-value">$1,500,000 USD</span>
         </div>
 
+        <p class="section-title">1. Seleccioná el Bloque de Interés:</p>
         <div class="zones-grid">
           <div class="zone-card" data-zone="aguarague">
             <h3>Yacimiento Aguaragüe</h3>
-            <p class="zone-desc">Formación de areniscas profundas. Trampas anticlinales estructurales.</p>
-            <div class="zone-info">
-              <span>Riesgo: <strong>Medio</strong></span>
-              <span>Costo Estudio: <strong>$120,000 USD</strong></span>
-            </div>
+            <p class="zone-desc">Areniscas profundas (Huamampampa). Profundidad estimada: 4.200m.</p>
+            <span class="zone-cost-tag">Perforación: ~$1.2M USD</span>
           </div>
 
           <div class="zone-card" data-zone="ramos">
             <h3>Área Ramos</h3>
-            <p class="zone-desc">Zona históricamente productora de gas natural y condensado.</p>
-            <div class="zone-info">
-              <span>Riesgo: <strong>Bajo</strong></span>
-              <span>Costo Estudio: <strong>$180,000 USD</strong></span>
-            </div>
+            <p class="zone-desc">Productores de gas/condensado tradicionales. Profundidad: 2.800m.</p>
+            <span class="zone-cost-tag">Perforación: ~$850k USD</span>
           </div>
 
           <div class="zone-card" data-zone="acambuco">
             <h3>Bloque Acambuco</h3>
-            <p class="zone-desc">Estructuras complejas y de alta presión en profundidad (Subandino).</p>
-            <div class="zone-info">
-              <span>Riesgo: <strong>Alto</strong></span>
-              <span>Costo Estudio: <strong>$150,000 USD</strong></span>
+            <p class="zone-desc">Alta presión estructural Subandina. Profundidad: 5.100m.</p>
+            <span class="zone-cost-tag">Perforación: ~$1.8M USD</span>
+          </div>
+        </div>
+
+        <p class="section-title">2. Seleccioná el Método Prospectivo:</p>
+        <div class="methods-grid">
+          <div class="method-card" data-method="geoquimica">
+            <i data-lucide="flask-conical" class="method-icon"></i>
+            <div class="method-info">
+              <h4>Geoquímica de Superficie</h4>
+              <p>Muestreo de gases alterados en suelo.</p>
+              <span class="price">$30,000 USD</span>
+            </div>
+          </div>
+
+          <div class="method-card" data-method="gravimetria">
+            <i data-lucide="compass" class="method-icon"></i>
+            <div class="method-info">
+              <h4>Gravimetría / Magnetometría</h4>
+              <p>Mapas de contraste de densidad del basamento.</p>
+              <span class="price">$50,000 USD</span>
+            </div>
+          </div>
+
+          <div class="method-card" data-method="sismica2d">
+            <i data-lucide="activity" class="method-icon"></i>
+            <div class="method-info">
+              <h4>Sísmica 2D (Líneas 2D)</h4>
+              <p>Cortes estratigráficos bidimensionales.</p>
+              <span class="price">$100,000 USD</span>
+            </div>
+          </div>
+
+          <div class="method-card" data-method="sismica3d">
+            <i data-lucide="box" class="method-icon"></i>
+            <div class="method-info">
+              <h4>Sísmica 3D (Cubo 3D)</h4>
+              <p>Modelo volumétrico estructural de alta definición.</p>
+              <span class="price">$200,000 USD</span>
             </div>
           </div>
         </div>
 
         <div id="seismicResult" class="seismic-result hidden">
-          <h4 id="seismicTitle">REPORTE SÍSMICO 3D</h4>
+          <h4 id="seismicTitle">REPORTE DE PROSPECCIÓN</h4>
           <p id="seismicDetails"></p>
         </div>
 
         <div class="exploration-actions">
           <button id="btnRunSeismic" class="btn btn-primary" type="button" disabled>
-            <span>REALIZAR ESTUDIO SÍSMICO</span>
+            <span>EJECUTAR ESTUDIO</span>
             <div class="btn-glow"></div>
           </button>
           
           <button id="btnGoToDrilling" class="btn btn-primary hidden" type="button">
-            <span>IR A PERFORACIÓN</span>
+            <span>PASAR A PERFORACIÓN</span>
             <div class="btn-glow"></div>
           </button>
         </div>
