@@ -1,6 +1,6 @@
 /**
  * RECUPERANDO LA CUENCA - Simulador Técnico Educativo
- * Mapa JPG con Nodos Interactivos, Loop de Ingresos Pasivos y Visor 3D Three.js
+ * Mapa JPG con Nodos Interactivos, Visor 3D Ampliado / Sketchfab y Bucle de Ingresos
  */
 
 const gameState = {
@@ -302,11 +302,16 @@ document.addEventListener("DOMContentLoaded", () => {
     updateHUD();
   });
 
-  // Modal 3D
+  // Modal 3D / Sketchfab
   const modal3D = document.getElementById("modal3D");
   document.getElementById("btnOpen3DModal").addEventListener("click", () => {
     modal3D.classList.remove("hidden");
-    initThreeJS();
+    
+    // Si no pegaste un iframe de Sketchfab dentro del contenedor, se inicializa el modelo Three.js básico
+    const container = document.getElementById("canvas3DContainer");
+    if (!container.querySelector("iframe") && container.children.length === 0) {
+      initThreeJS();
+    }
   });
 
   document.getElementById("btnClose3DModal").addEventListener("click", () => {
@@ -349,7 +354,7 @@ function resetGame() {
   Navigation.goTo(Navigation.screens.exploration);
 }
 
-// Visualizador 3D Three.js
+// Visualizador 3D Three.js (Fallback si no usas Iframe de Sketchfab)
 let scene, camera, renderer, pumpJackGroup;
 
 function initThreeJS() {
@@ -360,7 +365,7 @@ function initThreeJS() {
   scene.background = new THREE.Color(0x05080a);
 
   camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-  camera.position.set(5, 4, 7);
+  camera.position.set(6, 4, 8);
   camera.lookAt(0, 1, 0);
 
   renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -376,21 +381,21 @@ function initThreeJS() {
 
   pumpJackGroup = new THREE.Group();
 
-  const baseGeo = new THREE.BoxGeometry(4, 0.3, 2);
+  const baseGeo = new THREE.BoxGeometry(4.5, 0.3, 2.2);
   const baseMat = new THREE.MeshLambertMaterial({ color: 0x334455 });
   const baseMesh = new THREE.Mesh(baseGeo, baseMat);
   pumpJackGroup.add(baseMesh);
 
-  const towerGeo = new THREE.ConeGeometry(1.2, 3, 4);
+  const towerGeo = new THREE.ConeGeometry(1.3, 3.2, 4);
   const towerMat = new THREE.MeshLambertMaterial({ color: 0xe6b800, flatShading: true });
   const towerMesh = new THREE.Mesh(towerGeo, towerMat);
-  towerMesh.position.set(0, 1.5, 0);
+  towerMesh.position.set(0, 1.6, 0);
   pumpJackGroup.add(towerMesh);
 
-  const beamGeo = new THREE.BoxGeometry(3.5, 0.4, 0.4);
+  const beamGeo = new THREE.BoxGeometry(4, 0.4, 0.4);
   const beamMat = new THREE.MeshLambertMaterial({ color: 0x00e5ff, flatShading: true });
   const beamMesh = new THREE.Mesh(beamGeo, beamMat);
-  beamMesh.position.set(0, 3, 0);
+  beamMesh.position.set(0, 3.2, 0);
   pumpJackGroup.add(beamMesh);
 
   scene.add(pumpJackGroup);

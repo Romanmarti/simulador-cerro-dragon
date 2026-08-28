@@ -6,7 +6,7 @@
   <title>RECUPERANDO LA CUENCA - Simulador de Petróleo y Gas</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Three.js para renderizado 3D ligero -->
+  <!-- Three.js para renderizado 3D ligero de respaldo -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
@@ -233,9 +233,9 @@
       </div>
     </section>
 
-    <!-- PANTALLA 6: MAPA CON IMAGEN PIXELADA Y POZOS SUPERPUESTOS -->
+    <!-- PANTALLA 6: MAPA TÁCTICO AMPLIADO -->
     <section id="fieldMapScreen" class="screen">
-      <div class="panel panel-large">
+      <div class="panel panel-map">
         <div class="badge">ETAPA 3: DESARROLLO Y PRODUCCIÓN</div>
         <h2 class="subtitle">MAPA TÁCTICO - CUENCA DEL NOROESTE</h2>
 
@@ -260,11 +260,11 @@
           <p id="wellInfoText" class="info-details">Hacé clic sobre las miras del mapa para ver los datos geológicos y perforar.</p>
         </div>
 
-        <!-- MAPA JPG DE FONDO CON POZOS SUPERPUESTOS -->
+        <!-- MAPA JPG DE FONDO CON POZOS SUPERPUESTOS (TAMAÑO AUMENTADO) -->
         <div class="pixel-map-wrapper">
           <img src="assets/cuencamap.jpg" alt="Mapa de la Cuenca del Noroeste" class="map-bg-img">
 
-          <!-- Marcadores de Pozos (Podés modificar top% y left% para ajustar su posición sobre la imagen) -->
+          <!-- Marcadores de Pozos -->
           <div class="well-marker" data-well="1" style="top: 25%; left: 42%;">
             <div class="well-pin"><i data-lucide="crosshair"></i></div>
             <span class="well-tag">N-01</span>
@@ -319,25 +319,28 @@
           </button>
           
           <button id="btnOpen3DModal" class="btn btn-primary" type="button">
-            <span>VER BOMBA (PUMP JACK) 3D</span>
+            <span>VER PUMPJACK 3D</span>
             <div class="btn-glow"></div>
           </button>
         </div>
       </div>
     </section>
 
-    <!-- MODAL 3D -->
+    <!-- MODAL VISOR 3D / SKETCHFAB AMPLIADO -->
     <div id="modal3D" class="modal-overlay hidden">
-      <div class="modal-content panel">
+      <div class="modal-content panel panel-3d">
         <div class="badge">EQUIPAMIENTO DE SUPERFICIE</div>
-        <h3 class="subtitle">APARATO DE BOMBEO MECÁNICO</h3>
+        <h3 class="subtitle">APARATO DE BOMBEO MECÁNICO (PUMPJACK)</h3>
         
-        <div id="canvas3DContainer" class="canvas-container"></div>
+        <!-- CONTENEDOR 3D GRANDE -->
+        <div id="canvas3DContainer" class="canvas-container canvas-large">
+<div class="sketchfab-embed-wrapper"> <iframe title="FlatOut 4 - Pumpjack" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/818d8f8920734c88a50f7c630a08cf93/embed"> </iframe> <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> <a href="https://sketchfab.com/3d-models/flatout-4-pumpjack-818d8f8920734c88a50f7c630a08cf93" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> FlatOut 4 - Pumpjack </a> by <a href="https://sketchfab.com/Romain_Brunelli" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> Romain Brunelli </a> on <a href="https://sketchfab.com" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a></p></div>
+        </div>
         
         <div class="educational-card">
           <h4><i data-lucide="book-open"></i> Ficha Técnica Educativa:</h4>
           <p id="eduPartDesc">
-            <strong>El Aparato de Bombeo Mecánico (Pump Jack)</strong> transforma el movimiento rotacional en movimiento vertical alternativo para extraer el fluido del subsuelo.
+            <strong>El Aparato de Bombeo Mecánico (Pump Jack)</strong> transforma el movimiento rotacional del motor en movimiento vertical alternativo para accionar la bomba de profundidad y extraer fluidos del subsuelo.
           </p>
         </div>
 
