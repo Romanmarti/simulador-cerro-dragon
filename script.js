@@ -1,6 +1,6 @@
 /**
  * RECUPERANDO LA CUENCA - Simulador Técnico Educativo
- * Sistema de 5 Pozos, Loop de Ingresos Pasivos y Visor 3D Three.js
+ * Mapa Pixelado 2D, Loop de Ingresos Pasivos y Visor 3D Three.js
  */
 
 const gameState = {
@@ -13,15 +13,16 @@ const gameState = {
   executedMethods: [],
   pos: 0,
   
-  // Desarrollo de Campo (5 Pozos)
+  // Mapa Pixelado de 5 Pozos
+  selectedWellId: null,
   drilledWellsCount: 0,
   incomePerSecond: 0,
   wellsData: {
-    1: { name: "Pozo N-01 (Huamampampa)", cost: 300000, income: 1500, drilled: false },
-    2: { name: "Pozo N-02 (Los Monos)", cost: 450000, income: 2500, drilled: false },
-    3: { name: "Pozo N-03 (Santa Rosa)", cost: 600000, income: 4000, drilled: false },
-    4: { name: "Pozo N-04 (Icla Deep)", cost: 800000, income: 6500, drilled: false },
-    5: { name: "Pozo N-05 (Tarija High)", cost: 1000000, income: 10000, drilled: false }
+    1: { name: "Pozo N-01 (Formación Huamampampa)", depth: "3,800m", cost: 300000, income: 1500, drilled: false },
+    2: { name: "Pozo N-02 (Formación Los Monos)", depth: "2,900m", cost: 450000, income: 2500, drilled: false },
+    3: { name: "Pozo N-03 (Formación Santa Rosa)", depth: "4,200m", cost: 600000, income: 4000, drilled: false },
+    4: { name: "Pozo N-04 (Formación Icla Deep)", depth: "4,600m", cost: 800000, income: 6500, drilled: false },
+    5: { name: "Pozo N-05 (Alto Tarija)", depth: "3,400m", cost: 1000000, income: 10000, drilled: false }
   },
   upgrades: {
     trepan: false,
@@ -86,22 +87,23 @@ function updateHUD() {
   if (mapWellsProgress) mapWellsProgress.textContent = `${gameState.drilledWellsCount} / 5`;
 }
 
-// Bucle de Ingresos Pasivos
+// Bucle de Ingresos Pasivos por Segundo
 setInterval(() => {
   if (gameState.currentScreen === "fieldMapScreen" && gameState.incomePerSecond > 0) {
     gameState.budget += gameState.incomePerSecond;
     updateHUD();
+    updateDrillButtonState();
   }
 }, 1000);
 
 document.addEventListener("DOMContentLoaded", () => {
   if (window.lucide) lucide.createIcons();
 
-  // Navegación Básica
+  // Navegación
   document.getElementById("btnStart").addEventListener("click", () => Navigation.goTo(Navigation.screens.operation));
   document.getElementById("btnContinue").addEventListener("click", () => Navigation.goTo(Navigation.screens.character));
 
-  // Guardar Personaje
+  // Crear Personaje
   document.getElementById("btnSaveCharacter").addEventListener("click", () => {
     const nameInput = document.getElementById("playerName");
     const genderInput = document.querySelector('input[name="gender"]:checked');
@@ -126,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
     Navigation.goTo(Navigation.screens.exploration);
   });
 
-  // Exploración - Selección Zona y Método
+  // Exploración
   document.querySelectorAll(".zone-card").forEach(card => {
     card.addEventListener("click", () => {
       document.querySelectorAll(".zone-card").forEach(c => c.classList.remove("selected"));
@@ -155,7 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnDrillWell) btnDrillWell.disabled = !(gameState.selectedZone && gameState.budget >= gameState.selectedZone.drillingCost);
   }
 
-  // Ejecutar Estudio
   document.getElementById("btnRunStudy").addEventListener("click", () => {
     const method = gameState.selectedMethod;
     if (gameState.budget < method.cost) return showToast("Presupuesto insuficiente.");
@@ -180,7 +181,6 @@ document.addEventListener("DOMContentLoaded", () => {
     seismicResult.classList.remove("hidden");
   });
 
-  // Perforar Pozo Exploratorio
   document.getElementById("btnDrillWell").addEventListener("click", () => {
     const zone = gameState.selectedZone;
     if (gameState.budget < zone.drillingCost) return showToast("Presupuesto insuficiente.");
@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateHUD();
 
     if (isSuccess) {
-      showToast("¡Descubrimiento Exitoso! Entrando a producción...", 4000);
+      showToast("¡Descubrimiento Exitoso! Entrando al mapa de producción...", 4000);
       Navigation.goTo(Navigation.screens.fieldMap);
     } else {
       document.getElementById("gameOverDetails").textContent = 
@@ -200,43 +200,84 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Lógica del Mapa de 5 Pozos
-  document.querySelectorAll(".well-node").forEach(node => {
-    node.addEventListener("click", () => {
-      const wellId = node.dataset.well;
+  // Interacción Mapa Pixelado 2D
+  document.querySelectorAll(".grid-cell.well-cell").forEach(cell => {
+    cell.addEventListener("click", () => {
+      document.querySelectorAll(".grid-cell.well-cell").forEach(c => c.classList.remove("selected"));
+      
+      const wellId = cell.dataset.well;
+      gameState.selectedWellId = wellId;
       const well = gameState.wellsData[wellId];
 
-      if (well.drilled) return;
+      cell.classList.add("selected");
 
       let actualCost = well.cost;
-      if (gameState.upgrades.trepan) actualCost *= 0.8; // Descuento por Trépano PDC
+      if (gameState.upgrades.trepan) actualCost *= 0.8;
 
-      if (gameState.budget < actualCost) return showToast("Fondos insuficientes para perforar este pozo.");
+      document.querySelector(".info-tag").textContent = well.name.toUpperCase();
+      document.getElementById("wellInfoText").textContent = 
+        `Profundidad: ${well.depth} | Estado: ${well.drilled ? "EN PRODUCCIÓN" : "DISPONIBLE PARA PERFORAR"} | Costo: $${actualCost.toLocaleString()} USD | Rendimiento: +${well.income.toLocaleString()} USD/s.`;
 
-      gameState.budget -= actualCost;
-      well.drilled = true;
-      gameState.drilledWellsCount++;
-
-      let addedIncome = well.income;
-      if (gameState.upgrades.pump) addedIncome *= 1.5; // Multiplicador por VFD
-
-      gameState.incomePerSecond += addedIncome;
-
-      node.classList.add("drilled");
-      node.querySelector(".node-status").textContent = "En Producción";
-      node.querySelector(".node-cost").textContent = `+${addedIncome.toLocaleString()} USD/s`;
-
-      updateHUD();
-      showToast(`¡Pozo N-0${wellId} completado e integrado a la red!`);
-
-      // Condición de Victoria
-      if (gameState.drilledWellsCount >= 5) {
-        setTimeout(() => Navigation.goTo(Navigation.screens.victory), 1500);
-      }
+      updateDrillButtonState();
     });
   });
 
-  // Comprar Mejoras
+  function updateDrillButtonState() {
+    const btnDrill = document.getElementById("btnDrillSelectedWell");
+    if (!gameState.selectedWellId) {
+      btnDrill.disabled = true;
+      btnDrill.querySelector("span").textContent = "SELECCIONÁ UN NODO";
+      return;
+    }
+
+    const well = gameState.wellsData[gameState.selectedWellId];
+    let actualCost = well.cost;
+    if (gameState.upgrades.trepan) actualCost *= 0.8;
+
+    if (well.drilled) {
+      btnDrill.disabled = true;
+      btnDrill.querySelector("span").textContent = "NODO YA EN PRODUCCIÓN";
+    } else {
+      btnDrill.disabled = gameState.budget < actualCost;
+      btnDrill.querySelector("span").textContent = `PERFORAR NODO ($${actualCost.toLocaleString()} USD)`;
+    }
+  }
+
+  // Perforar Nodo Seleccionado
+  document.getElementById("btnDrillSelectedWell").addEventListener("click", () => {
+    if (!gameState.selectedWellId) return;
+
+    const well = gameState.wellsData[gameState.selectedWellId];
+    let actualCost = well.cost;
+    if (gameState.upgrades.trepan) actualCost *= 0.8;
+
+    if (gameState.budget < actualCost) return showToast("Fondos insuficientes.");
+
+    gameState.budget -= actualCost;
+    well.drilled = true;
+    gameState.drilledWellsCount++;
+
+    let addedIncome = well.income;
+    if (gameState.upgrades.pump) addedIncome *= 1.5;
+
+    gameState.incomePerSecond += addedIncome;
+
+    const activeCell = document.querySelector(`.grid-cell.well-cell[data-well="${gameState.selectedWellId}"]`);
+    if (activeCell) {
+      activeCell.classList.remove("selected");
+      activeCell.classList.add("drilled");
+    }
+
+    showToast(`¡Pozo N-0${gameState.selectedWellId} integrado a la red de producción!`);
+    updateHUD();
+    updateDrillButtonState();
+
+    if (gameState.drilledWellsCount >= 5) {
+      setTimeout(() => Navigation.goTo(Navigation.screens.victory), 1500);
+    }
+  });
+
+  // Mejoras
   document.getElementById("upgTrepan").addEventListener("click", function() {
     if (gameState.upgrades.trepan) return;
     if (gameState.budget < 150000) return showToast("Fondos insuficientes.");
@@ -246,6 +287,7 @@ document.addEventListener("DOMContentLoaded", () => {
     this.classList.add("bought");
     showToast("Trépano PDC de diamante equipado: Perforación 20% más barata.");
     updateHUD();
+    updateDrillButtonState();
   });
 
   document.getElementById("upgPump").addEventListener("click", function() {
@@ -260,7 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateHUD();
   });
 
-  // Visor Modal 3D (Three.js Escena Ligera)
+  // Modal 3D
   const modal3D = document.getElementById("modal3D");
   document.getElementById("btnOpen3DModal").addEventListener("click", () => {
     modal3D.classList.remove("hidden");
@@ -282,6 +324,7 @@ function resetGame() {
   gameState.selectedMethod = null;
   gameState.executedMethods = [];
   gameState.pos = 0;
+  gameState.selectedWellId = null;
   gameState.drilledWellsCount = 0;
   gameState.incomePerSecond = 0;
   gameState.upgrades.trepan = false;
@@ -291,27 +334,27 @@ function resetGame() {
     gameState.wellsData[key].drilled = false;
   }
 
-  document.querySelectorAll(".well-node").forEach(node => {
-    node.classList.remove("drilled");
-    const id = node.dataset.well;
-    node.querySelector(".node-status").textContent = "Disponible";
-    node.querySelector(".node-cost").textContent = `$${gameState.wellsData[id].cost.toLocaleString()} USD`;
+  document.querySelectorAll(".grid-cell.well-cell").forEach(cell => {
+    cell.classList.remove("drilled", "selected");
   });
 
   document.querySelectorAll(".upgrade-card").forEach(c => c.classList.remove("bought"));
   document.querySelectorAll(".zone-card").forEach(c => c.classList.remove("selected"));
   document.querySelectorAll(".method-card").forEach(c => c.classList.remove("selected", "completed"));
 
+  document.querySelector(".info-tag").textContent = "SELECCIONÁ UN NODO EN EL MAPA PIXELADO";
+  document.getElementById("wellInfoText").textContent = "Hacé clic sobre las coordenadas del mapa para ver los datos geológicos y perforar.";
+
   updateHUD();
   Navigation.goTo(Navigation.screens.exploration);
 }
 
-// Renderizador 3D Simulado Estilo Low-Poly con Three.js
+// Visualizador 3D Three.js
 let scene, camera, renderer, pumpJackGroup;
 
 function initThreeJS() {
   const container = document.getElementById("canvas3DContainer");
-  if (container.children.length > 0) return; // Evita duplicar el canvas
+  if (container.children.length > 0) return;
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x05080a);
@@ -324,7 +367,6 @@ function initThreeJS() {
   renderer.setSize(container.clientWidth, container.clientHeight);
   container.appendChild(renderer.domElement);
 
-  // Iluminación
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
   scene.add(ambientLight);
 
@@ -332,23 +374,19 @@ function initThreeJS() {
   dirLight.position.set(5, 10, 5);
   scene.add(dirLight);
 
-  // Creación de Bomba Low-Poly (Estructura Básica)
   pumpJackGroup = new THREE.Group();
 
-  // Base
   const baseGeo = new THREE.BoxGeometry(4, 0.3, 2);
   const baseMat = new THREE.MeshLambertMaterial({ color: 0x334455 });
   const baseMesh = new THREE.Mesh(baseGeo, baseMat);
   pumpJackGroup.add(baseMesh);
 
-  // Torre central (A-Frame)
   const towerGeo = new THREE.ConeGeometry(1.2, 3, 4);
   const towerMat = new THREE.MeshLambertMaterial({ color: 0xe6b800, flatShading: true });
   const towerMesh = new THREE.Mesh(towerGeo, towerMat);
   towerMesh.position.set(0, 1.5, 0);
   pumpJackGroup.add(towerMesh);
 
-  // Viga Balanceadora (Walking Beam)
   const beamGeo = new THREE.BoxGeometry(3.5, 0.4, 0.4);
   const beamMat = new THREE.MeshLambertMaterial({ color: 0x00e5ff, flatShading: true });
   const beamMesh = new THREE.Mesh(beamGeo, beamMat);
@@ -357,7 +395,6 @@ function initThreeJS() {
 
   scene.add(pumpJackGroup);
 
-  // Animación continua
   function animate() {
     requestAnimationFrame(animate);
     if (pumpJackGroup) pumpJackGroup.rotation.y += 0.008;

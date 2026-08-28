@@ -230,7 +230,7 @@
     <section id="fieldMapScreen" class="screen">
       <div class="panel panel-large">
         <div class="badge">ETAPA 3: DESARROLLO Y PRODUCCIÓN</div>
-        <h2 class="subtitle">MAPA TÁCTICO DE LA CUENCA</h2>
+        <h2 class="subtitle">MAPA TÁCTICO 2D - CUENCA DEL NOROESTE</h2>
 
         <div class="hud-stats">
           <div class="hud-item">
@@ -238,7 +238,7 @@
             <span id="mapBudget" class="stat-value">$1,000,000 USD</span>
           </div>
           <div class="hud-item">
-            <span class="stat-label">FLINT / PRODUCCIÓN:</span>
+            <span class="stat-label">PRODUCCIÓN:</span>
             <span id="mapIncome" class="stat-value highlight-green">+$0 USD/seg</span>
           </div>
           <div class="hud-item">
@@ -247,62 +247,56 @@
           </div>
         </div>
 
-        <p class="section-title">Seleccioná un objetivo de perforación en la Cuenca:</p>
-        
-        <div class="field-grid">
-          <div class="well-node" data-well="1">
-            <div class="node-icon"><i data-lucide="map-pin"></i></div>
-            <div class="node-info">
-              <span class="node-title">Pozo N-01 (Huamampampa)</span>
-              <span class="node-status">Disponible</span>
-            </div>
-            <span class="node-cost">$300,000 USD</span>
-          </div>
+        <div id="wellInfoBox" class="well-info-box">
+          <span class="info-tag">SELECCIONÁ UN NODO EN EL MAPA PIXELADO</span>
+          <p id="wellInfoText" class="info-details">Hacé clic sobre las coordenadas del mapa para ver los datos geológicos y perforar.</p>
+        </div>
 
-          <div class="well-node" data-well="2">
-            <div class="node-icon"><i data-lucide="map-pin"></i></div>
-            <div class="node-info">
-              <span class="node-title">Pozo N-02 (Los Monos)</span>
-              <span class="node-status">Disponible</span>
+        <div class="pixel-map-container">
+          <div class="pixel-grid">
+            <div class="grid-cell mountain"></div>
+            <div class="grid-cell terrain"></div>
+            <div class="grid-cell well-cell" data-well="1">
+              <div class="well-pin"><i data-lucide="crosshair"></i></div>
+              <span class="well-tag">N-01</span>
             </div>
-            <span class="node-cost">$450,000 USD</span>
-          </div>
+            <div class="grid-cell mountain"></div>
 
-          <div class="well-node" data-well="3">
-            <div class="node-icon"><i data-lucide="map-pin"></i></div>
-            <div class="node-info">
-              <span class="node-title">Pozo N-03 (Santa Rosa)</span>
-              <span class="node-status">Disponible</span>
+            <div class="grid-cell well-cell" data-well="2">
+              <div class="well-pin"><i data-lucide="crosshair"></i></div>
+              <span class="well-tag">N-02</span>
             </div>
-            <span class="node-cost">$600,000 USD</span>
-          </div>
+            <div class="grid-cell terrain"></div>
+            <div class="grid-cell terrain"></div>
+            <div class="grid-cell well-cell" data-well="3">
+              <div class="well-pin"><i data-lucide="crosshair"></i></div>
+              <span class="well-tag">N-03</span>
+            </div>
 
-          <div class="well-node" data-well="4">
-            <div class="node-icon"><i data-lucide="map-pin"></i></div>
-            <div class="node-info">
-              <span class="node-title">Pozo N-04 (Icla Deep)</span>
-              <span class="node-status">Disponible</span>
+            <div class="grid-cell terrain"></div>
+            <div class="grid-cell well-cell" data-well="4">
+              <div class="well-pin"><i data-lucide="crosshair"></i></div>
+              <span class="well-tag">N-04</span>
             </div>
-            <span class="node-cost">$800,000 USD</span>
-          </div>
+            <div class="grid-cell mountain"></div>
+            <div class="grid-cell terrain"></div>
 
-          <div class="well-node" data-well="5">
-            <div class="node-icon"><i data-lucide="map-pin"></i></div>
-            <div class="node-info">
-              <span class="node-title">Pozo N-05 (Tarija High)</span>
-              <span class="node-status">Disponible</span>
+            <div class="grid-cell mountain"></div>
+            <div class="grid-cell terrain"></div>
+            <div class="grid-cell well-cell" data-well="5">
+              <div class="well-pin"><i data-lucide="crosshair"></i></div>
+              <span class="well-tag">N-05</span>
             </div>
-            <span class="node-cost">$1,000,000 USD</span>
+            <div class="grid-cell mountain"></div>
           </div>
         </div>
 
-        <p class="section-title">Optimizaciones y Tecnología de Campo:</p>
         <div class="upgrades-grid">
           <div class="upgrade-card" id="upgTrepan">
             <i data-lucide="zap" class="upgrade-icon"></i>
             <div class="upgrade-info">
-              <h4>Trépano PDC de Diamante</h4>
-              <p>Reduce costo de perforación un 20%.</p>
+              <h4>Trépano PDC Diamante</h4>
+              <p>Costo de perforación -20%.</p>
               <span class="upgrade-cost">$150,000 USD</span>
             </div>
           </div>
@@ -310,14 +304,19 @@
           <div class="upgrade-card" id="upgPump">
             <i data-lucide="trending-up" class="upgrade-icon"></i>
             <div class="upgrade-info">
-              <h4>Variador de Frecuencia VFD</h4>
-              <p>Aumenta producción de pozos +50% USD/seg.</p>
+              <h4>Variador VFD</h4>
+              <p>Producción por segundo +50%.</p>
               <span class="upgrade-cost">$250,000 USD</span>
             </div>
           </div>
         </div>
 
         <div class="map-actions">
+          <button id="btnDrillSelectedWell" class="btn btn-primary" type="button" disabled>
+            <span>PERFORAR NODO ($0 USD)</span>
+            <div class="btn-glow"></div>
+          </button>
+          
           <button id="btnOpen3DModal" class="btn btn-primary" type="button">
             <span>VER BOMBA (PUMP JACK) 3D</span>
             <div class="btn-glow"></div>
@@ -336,7 +335,7 @@
         <div class="educational-card">
           <h4><i data-lucide="book-open"></i> Ficha Técnica Educativa:</h4>
           <p id="eduPartDesc">
-            <strong>El Aparato de Bombeo Mecánico (Pump Jack)</strong> transforma el movimiento rotacional de un motor eléctrico o a gas en un movimiento alternativo vertical. Este movimiento acciona la bomba de profundidad para elevar el petróleo hasta la superficie.
+            <strong>El Aparato de Bombeo Mecánico (Pump Jack)</strong> transforma el movimiento rotacional en movimiento vertical alternativo para extraer el fluido del subsuelo.
           </p>
         </div>
 
@@ -352,7 +351,7 @@
         <h1 class="title title-danger">GAME OVER</h1>
         <p class="subtitle" id="gameOverReason">POZO SECO</p>
         <p class="description" id="gameOverDetails">
-          La perforación resultó estéril. No se hallaron hidrocarburos comerciales y la inversión se ha perdido por completo.
+          La perforación resultó estéril. No se hallaron hidrocarburos comerciales.
         </p>
         <button id="btnRestart" class="btn btn-danger" type="button">
           <span>REINTENTAR OPERACIÓN</span>
@@ -366,7 +365,7 @@
         <div class="badge badge-success">¡MISIÓN CUMPLIDA!</div>
         <h1 class="title title-success">CUENCA RECUPERADA</h1>
         <p class="description">
-          ¡Felicitaciones! Has completado el desarrollo de los 5 pozos en la Cuenca del Noroeste, garantizando la producción sostenida y optimizando los recursos energéticos de la región.
+          ¡Felicitaciones! Desarrollaste con éxito los 5 pozos estratégicos de la Cuenca del Noroeste.
         </p>
         <button id="btnVictoryRestart" class="btn btn-primary" type="button">
           <span>JUGAR DE NUEVO</span>
