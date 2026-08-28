@@ -383,14 +383,24 @@ body {
 }
 
 /* VISOR PUMPJACK AMPLIADO */
+/* Ajuste de contenedor y el iframe de Sketchfab */
 .canvas-container.canvas-large {
-  height: 450px;
+  height: 480px;
+  width: 100%;
+  position: relative;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #000;
 }
 
 .canvas-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  border: none;
+  border: 0;
 }
 
 .educational-card {
