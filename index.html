@@ -36,7 +36,7 @@
       </div>
     </section>
 
-    <!-- PANTALLA 2: NUEVA OPERACIÓN (Provisional) -->
+    <!-- PANTALLA 2: NUEVA OPERACIÓN -->
     <section id="operationScreen" class="screen">
       <div class="panel">
         <div class="badge">ETAPA DE INICIO</div>
@@ -50,8 +50,90 @@
       </div>
     </section>
 
+    <!-- PANTALLA 3: CREACIÓN DE PERSONAJE Y EPP -->
+    <section id="characterScreen" class="screen">
+      <div class="panel panel-large">
+        <div class="badge">FICHA DE PERSONAL - TÉCNICO DE CAMPO</div>
+        <h2 class="subtitle">CREACIÓN DE PERSONAJE</h2>
+        
+        <form id="characterForm" onsubmit="return false;">
+          <!-- Datos Personales -->
+          <div class="form-group">
+            <label for="playerName" class="form-label">Nombre del Técnico/a:</label>
+            <input type="text" id="playerName" class="form-input" placeholder="Ej: Alex" maxlength="25" autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Identidad / Género:</label>
+            <div class="gender-options">
+              <label class="radio-card">
+                <input type="radio" name="gender" value="Masculino">
+                <span class="radio-btn">Masculino</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="gender" value="Femenino">
+                <span class="radio-btn">Femenino</span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="gender" value="No binario">
+                <span class="radio-btn">No binario</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Selección de EPP -->
+          <div class="epp-section">
+            <div class="sub-badge">EQUIPO DE PROTECCIÓN PERSONAL (EPP)</div>
+            <p class="epp-instruction">Seleccioná todo el equipamiento obligatorio para ingresar al yacimiento:</p>
+            
+            <div class="epp-grid">
+              <label class="epp-checkbox">
+                <input type="checkbox" name="epp" value="Casco de seguridad">
+                <span class="checkbox-custom"></span>
+                <span class="epp-label">Casco de Seguridad</span>
+              </label>
+
+              <label class="epp-checkbox">
+                <input type="checkbox" name="epp" value="Calzado de seguridad">
+                <span class="checkbox-custom"></span>
+                <span class="epp-label">Calzado de Seguridad</span>
+              </label>
+
+              <label class="epp-checkbox">
+                <input type="checkbox" name="epp" value="Lentes de protección">
+                <span class="checkbox-custom"></span>
+                <span class="epp-label">Lentes de Protección</span>
+              </label>
+
+              <label class="epp-checkbox">
+                <input type="checkbox" name="epp" value="Guantes de trabajo">
+                <span class="checkbox-custom"></span>
+                <span class="epp-label">Guantes de Trabajo</span>
+              </label>
+
+              <label class="epp-checkbox">
+                <input type="checkbox" name="epp" value="Ropa ignífuga">
+                <span class="checkbox-custom"></span>
+                <span class="epp-label">Ropa Ignífuga</span>
+              </label>
+
+              <label class="epp-checkbox">
+                <input type="checkbox" name="epp" value="Protector auditivo">
+                <span class="checkbox-custom"></span>
+                <span class="epp-label">Protector Auditivo</span>
+              </label>
+            </div>
+          </div>
+
+          <button id="btnSaveCharacter" class="btn btn-primary" type="button">
+            <span>INGRESAR AL YACIMIENTO</span>
+            <div class="btn-glow"></div>
+          </button>
+        </form>
+      </div>
+    </section>
+
     <!-- CONTENEDOR PARA FUTURAS PANTALLAS -->
-    <section id="characterScreen" class="screen"></section>
     <section id="equipmentScreen" class="screen"></section>
     <section id="explorationScreen" class="screen"></section>
     <section id="drillingScreen" class="screen"></section>
@@ -62,7 +144,7 @@
     <div id="toast" class="toast hidden"></div>
   </div>
 
-  <!-- Enlace al script de JavaScript (al final del body para asegurar la carga del DOM) -->
+  <!-- Enlace al script de JavaScript -->
   <script src="script.js"></script>
 </body>
 </html>

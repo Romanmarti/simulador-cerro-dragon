@@ -7,6 +7,7 @@
 const gameState = {
   playerName: "",
   gender: "",
+  epp: [],
   budget: 0,
   exploration: [],
   selectedZone: null,
@@ -62,16 +63,58 @@ function showToast(message, duration = 3000) {
 document.addEventListener("DOMContentLoaded", () => {
   const btnStart = document.getElementById("btnStart");
   const btnContinue = document.getElementById("btnContinue");
+  const btnSaveCharacter = document.getElementById("btnSaveCharacter");
 
+  // Evento: Click en COMENZAR
   if (btnStart) {
     btnStart.addEventListener("click", () => {
       Navigation.goTo(Navigation.screens.operation);
     });
   }
 
+  // Evento: Click en CONTINUAR (Pasa a la creación del personaje)
   if (btnContinue) {
     btnContinue.addEventListener("click", () => {
-      showToast("La creación del personaje será la próxima etapa.");
+      Navigation.goTo(Navigation.screens.character);
+    });
+  }
+
+  // Evento: Guardar Personaje y EPP
+  if (btnSaveCharacter) {
+    btnSaveCharacter.addEventListener("click", () => {
+      const nameInput = document.getElementById("playerName");
+      const genderInput = document.querySelector('input[name="gender"]:checked');
+      const eppCheckboxes = document.querySelectorAll('input[name="epp"]:checked');
+      const totalEppAvailable = document.querySelectorAll('input[name="epp"]').length;
+
+      // Validación 1: Nombre
+      if (!nameInput.value.trim()) {
+        showToast("Por favor, ingresá el nombre del técnico/a.");
+        nameInput.focus();
+        return;
+      }
+
+      // Validación 2: Género
+      if (!genderInput) {
+        showToast("Por favor, seleccioná tu identidad/género.");
+        return;
+      }
+
+      // Validación 3: EPP Completo
+      if (eppCheckboxes.length < totalEppAvailable) {
+        showToast("¡Atención! Para ingresar al yacimiento debés colocar todo el EPP obligatorio.");
+        return;
+      }
+
+      // Guardar en el Estado Global
+      gameState.playerName = nameInput.value.trim();
+      gameState.gender = genderInput.value;
+      gameState.epp = Array.from(eppCheckboxes).map(cb => cb.value);
+
+      showToast(`¡Bienvenido/a, ${gameState.playerName}! Equipamiento verificado.`);
+      
+      // La siguiente pantalla (equipmentScreen) se llamará en la próxima etapa
+      console.log("Estado actualizado:", gameState);
     });
   }
 });
