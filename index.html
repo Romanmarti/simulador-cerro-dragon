@@ -133,42 +133,48 @@
 
     <section id="explorationScreen" class="screen">
       <div class="panel panel-large">
-        <div class="badge">ETAPA 2: EXPLORACIÓN GEOFÍSICA Y GEOQUÍMICA</div>
+        <div class="badge">ETAPA 2: EXPLORACIÓN Y PROSPECCIÓN</div>
         <h2 class="subtitle">CUENCA DEL NOROESTE</h2>
         
         <div class="hud-stats">
-          <span class="stat-label">PRESUPUESTO DISPONIBLE:</span>
-          <span id="hudBudget" class="stat-value">$1,500,000 USD</span>
+          <div class="hud-item">
+            <span class="stat-label">PRESUPUESTO:</span>
+            <span id="hudBudget" class="stat-value">$2,000,000 USD</span>
+          </div>
+          <div class="hud-item">
+            <span class="stat-label">PROBABILIDAD DE ÉXITO (PoS):</span>
+            <span id="hudPoS" class="stat-value highlight-green">0%</span>
+          </div>
         </div>
 
-        <p class="section-title">1. Seleccioná el Bloque de Interés:</p>
+        <p class="section-title">1. Seleccioná el Bloque Geológico:</p>
         <div class="zones-grid">
-          <div class="zone-card" data-zone="aguarague">
-            <h3>Yacimiento Aguaragüe</h3>
-            <p class="zone-desc">Areniscas profundas (Huamampampa). Profundidad estimada: 4.200m.</p>
-            <span class="zone-cost-tag">Perforación: ~$1.2M USD</span>
-          </div>
-
           <div class="zone-card" data-zone="ramos">
             <h3>Área Ramos</h3>
-            <p class="zone-desc">Productores de gas/condensado tradicionales. Profundidad: 2.800m.</p>
-            <span class="zone-cost-tag">Perforación: ~$850k USD</span>
+            <p class="zone-desc">Riesgo Bajo. Certeza base: 30%.</p>
+            <span class="zone-cost-tag">Perforación: $800k USD</span>
+          </div>
+
+          <div class="zone-card" data-zone="aguarague">
+            <h3>Yacimiento Aguaragüe</h3>
+            <p class="zone-desc">Riesgo Medio. Certeza base: 20%.</p>
+            <span class="zone-cost-tag">Perforación: $1.2M USD</span>
           </div>
 
           <div class="zone-card" data-zone="acambuco">
             <h3>Bloque Acambuco</h3>
-            <p class="zone-desc">Alta presión estructural Subandina. Profundidad: 5.100m.</p>
-            <span class="zone-cost-tag">Perforación: ~$1.8M USD</span>
+            <p class="zone-desc">Riesgo Alto / Gran Recurso. Certeza base: 10%.</p>
+            <span class="zone-cost-tag">Perforación: $1.5M USD</span>
           </div>
         </div>
 
-        <p class="section-title">2. Seleccioná el Método Prospectivo:</p>
+        <p class="section-title">2. Invertí en Estudios para Incrementar la Probabilidad de Éxito:</p>
         <div class="methods-grid">
           <div class="method-card" data-method="geoquimica">
             <i data-lucide="flask-conical" class="method-icon"></i>
             <div class="method-info">
-              <h4>Geoquímica de Superficie</h4>
-              <p>Muestreo de gases alterados en suelo.</p>
+              <h4>Geoquímica (+10% PoS)</h4>
+              <p>Muestreo de fluidos/gases en superficie.</p>
               <span class="price">$30,000 USD</span>
             </div>
           </div>
@@ -176,8 +182,8 @@
           <div class="method-card" data-method="gravimetria">
             <i data-lucide="compass" class="method-icon"></i>
             <div class="method-info">
-              <h4>Gravimetría / Magnetometría</h4>
-              <p>Mapas de contraste de densidad del basamento.</p>
+              <h4>Gravimetría (+15% PoS)</h4>
+              <p>Anomalías de densidad del basamento.</p>
               <span class="price">$50,000 USD</span>
             </div>
           </div>
@@ -185,8 +191,8 @@
           <div class="method-card" data-method="sismica2d">
             <i data-lucide="activity" class="method-icon"></i>
             <div class="method-info">
-              <h4>Sísmica 2D (Líneas 2D)</h4>
-              <p>Cortes estratigráficos bidimensionales.</p>
+              <h4>Sísmica 2D (+25% PoS)</h4>
+              <p>Perfil de fallas y trampa estratigráfica.</p>
               <span class="price">$100,000 USD</span>
             </div>
           </div>
@@ -194,33 +200,47 @@
           <div class="method-card" data-method="sismica3d">
             <i data-lucide="box" class="method-icon"></i>
             <div class="method-info">
-              <h4>Sísmica 3D (Cubo 3D)</h4>
-              <p>Modelo volumétrico estructural de alta definición.</p>
+              <h4>Sísmica 3D (+40% PoS)</h4>
+              <p>Modelo 3D tridimensional de alta resolución.</p>
               <span class="price">$200,000 USD</span>
             </div>
           </div>
         </div>
 
         <div id="seismicResult" class="seismic-result hidden">
-          <h4 id="seismicTitle">REPORTE DE PROSPECCIÓN</h4>
+          <h4 id="seismicTitle">REPORTE TÉCNICO</h4>
           <p id="seismicDetails"></p>
         </div>
 
         <div class="exploration-actions">
-          <button id="btnRunSeismic" class="btn btn-primary" type="button" disabled>
+          <button id="btnRunStudy" class="btn btn-primary" type="button" disabled>
             <span>EJECUTAR ESTUDIO</span>
             <div class="btn-glow"></div>
           </button>
           
-          <button id="btnGoToDrilling" class="btn btn-primary hidden" type="button">
-            <span>PASAR A PERFORACIÓN</span>
+          <button id="btnDrillWell" class="btn btn-primary" type="button" disabled>
+            <span>PERFORAR POZO</span>
             <div class="btn-glow"></div>
           </button>
         </div>
       </div>
     </section>
 
-    <section id="drillingScreen" class="screen"></section>
+    <section id="gameOverScreen" class="screen">
+      <div class="panel panel-danger">
+        <div class="badge badge-danger">OPERACIÓN FALLIDA</div>
+        <h1 class="title title-danger">GAME OVER</h1>
+        <p class="subtitle" id="gameOverReason">POZO SECO</p>
+        <p class="description" id="gameOverDetails">
+          La perforación resultó estéril. No se hallaron hidrocarburos comerciales y la inversión se ha perdido por completo.
+        </p>
+        <button id="btnRestart" class="btn btn-danger" type="button">
+          <span>REINTENTAR OPERACIÓN</span>
+          <div class="btn-glow"></div>
+        </button>
+      </div>
+    </section>
+
     <section id="productionScreen" class="screen"></section>
     <section id="finalScreen" class="screen"></section>
 

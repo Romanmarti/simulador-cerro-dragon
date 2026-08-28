@@ -1,68 +1,35 @@
 /**
  * RECUPERANDO LA CUENCA - Simulador Técnico
- * Estado Global y Control de Navegación
+ * Sistema de Probabilidad y Pantalla de Game Over
  */
 
-// 1. ESTADO GLOBAL DEL JUEGO
 const gameState = {
   playerName: "",
   gender: "",
   epp: [],
-  budget: 1500000, // Presupuesto inicial incrementado ($1.5M USD)
+  budget: 2000000,
   selectedZone: null,
   selectedMethod: null,
-  explorationHistory: [],
-  drillingCost: 0,
+  executedMethods: [],
+  pos: 0,
+  wellDrilled: false,
+  wellSuccess: false,
   currentScreen: "startScreen"
 };
 
-// Datos de Zonas (Bloques)
 const ZONES_DATA = {
-  aguarague: {
-    name: "Yacimiento Aguaragüe",
-    depth: 4200,
-    drillingCost: 1200000,
-    target: "Gas y Condensado (Formación Huamampampa)"
-  },
-  ramos: {
-    name: "Área Ramos",
-    depth: 2800,
-    drillingCost: 850000,
-    target: "Gas Natural (Formación Tupambi)"
-  },
-  acambuco: {
-    name: "Bloque Acambuco",
-    depth: 5100,
-    drillingCost: 1800000,
-    target: "Gas de Alta Presión (Formación Santa Rosa)"
-  }
+  ramos: { key: "ramos", name: "Área Ramos", basePoS: 30, drillingCost: 800000 },
+  aguarague: { key: "aguarague", name: "Yacimiento Aguaragüe", basePoS: 20, drillingCost: 1200000 },
+  acambuco: { key: "acambuco", name: "Bloque Acambuco", basePoS: 10, drillingCost: 1500000 }
 };
 
-// Datos de Métodos Prospectivos
 const METHODS_DATA = {
-  geoquimica: {
-    name: "Geoquímica de Superficie",
-    cost: 30000,
-    report: "Se detectaron anomalias de hidrocarburos ligeros (C1-C4) en muestras de suelo. Confirma la existencia de un sistema petrolero activo."
-  },
-  gravimetria: {
-    name: "Gravimetría / Magnetometría",
-    cost: 50000,
-    report: "El mapa de anomalías de gravedad del basamento sugiere un alto estructural promisor delimitado por fallas profundas."
-  },
-  sismica2d: {
-    name: "Sísmica 2D",
-    cost: 100000,
-    report: "Cortes 2D revelan una clara estructura anticlinal. Se observa una probable falla sellante en el flanco este."
-  },
-  sismica3d: {
-    name: "Sísmica 3D",
-    cost: 200000,
-    report: "Cubo 3D de alta resolución finalizado. Se identifica un 'Bright Spot' claro con cierre estructural definido. Precisión óptima para definir la locación del pozo exploratorio."
-  }
+  geoquimica: { key: "geoquimica", name: "Geoquímica de Superficie", cost: 30000, posBonus: 10, report: "Microfiltraciones confirmadas (+10% PoS)." },
+  gravimetria: { key: "gravimetria", name: "Gravimetría / Magnetometría", cost: 50000, posBonus: 15, report: "Basamento mapeado (+15% PoS)." },
+  sismica2d: { key: "sismica2d", name: "Sísmica 2D", cost: 100000, posBonus: 25, report: "Trampa estructural vista (+25% PoS)." },
+  sismica3d: { key: "sismica3d", name: "Sísmica 3D", cost: 200000, posBonus: 40, report: "Cubo 3D de alta precisión (+40% PoS)." }
 };
 
-// 2. CONTROL DE NAVEGACIÓN
 const Navigation = {
   screens: {
     start: "startScreen",
@@ -70,7 +37,7 @@ const Navigation = {
     character: "characterScreen",
     equipment: "equipmentScreen",
     exploration: "explorationScreen",
-    drilling: "drillingScreen",
+    gameOver: "gameOverScreen",
     production: "productionScreen",
     final: "finalScreen"
   },
@@ -79,59 +46,59 @@ const Navigation = {
     const currentElem = document.getElementById(gameState.currentScreen);
     const targetElem = document.getElementById(screenId);
 
-    if (!targetElem) {
-      console.warn(`La pantalla "${screenId}" aún no está implementada.`);
-      return;
-    }
-
-    if (currentElem) {
-      currentElem.classList.remove("active");
-    }
-
-    targetElem.classList.add("active");
+    if (currentElem) currentElem.classList.remove("active");
+    if (targetElem) targetElem.classList.add("active");
     gameState.currentScreen = screenId;
   }
 };
 
-// 3. TOAST Y HUD
 function showToast(message, duration = 3000) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
   toast.classList.remove("hidden");
-
-  setTimeout(() => {
-    toast.classList.add("hidden");
-  }, duration);
+  setTimeout(() => toast.classList.add("hidden"), duration);
 }
 
-function updateBudgetUI() {
+function updateHUD() {
   const hudBudget = document.getElementById("hudBudget");
-  if (hudBudget) {
-    hudBudget.textContent = `$${gameState.budget.toLocaleString()} USD`;
-  }
+  const hudPoS = document.getElementById("hudPoS");
+
+  if (hudBudget) hudBudget.textContent = `$${gameState.budget.toLocaleString()} USD`;
+  if (hudPoS) hudPoS.textContent = `${gameState.pos}%`;
 }
 
-// 4. INICIALIZACIÓN Y EVENTOS
+function resetGame() {
+  gameState.budget = 2000000;
+  gameState.selectedZone = null;
+  gameState.selectedMethod = null;
+  gameState.executedMethods = [];
+  gameState.pos = 0;
+  gameState.wellDrilled = false;
+  gameState.wellSuccess = false;
+
+  document.querySelectorAll(".zone-card").forEach(c => c.classList.remove("selected"));
+  document.querySelectorAll(".method-card").forEach(c => c.classList.remove("selected", "completed"));
+  
+  const seismicResult = document.getElementById("seismicResult");
+  if (seismicResult) seismicResult.classList.add("hidden");
+
+  updateHUD();
+  Navigation.goTo(Navigation.screens.exploration);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  // Inicializar iconos Lucide
-  if (window.lucide) {
-    lucide.createIcons();
-  }
+  if (window.lucide) lucide.createIcons();
 
   const btnStart = document.getElementById("btnStart");
   const btnContinue = document.getElementById("btnContinue");
   const btnSaveCharacter = document.getElementById("btnSaveCharacter");
   const btnEquipmentContinue = document.getElementById("btnEquipmentContinue");
-  const btnRunSeismic = document.getElementById("btnRunSeismic");
-  const btnGoToDrilling = document.getElementById("btnGoToDrilling");
+  const btnRunStudy = document.getElementById("btnRunStudy");
+  const btnDrillWell = document.getElementById("btnDrillWell");
+  const btnRestart = document.getElementById("btnRestart");
 
-  if (btnStart) {
-    btnStart.addEventListener("click", () => Navigation.goTo(Navigation.screens.operation));
-  }
-
-  if (btnContinue) {
-    btnContinue.addEventListener("click", () => Navigation.goTo(Navigation.screens.character));
-  }
+  if (btnStart) btnStart.addEventListener("click", () => Navigation.goTo(Navigation.screens.operation));
+  if (btnContinue) btnContinue.addEventListener("click", () => Navigation.goTo(Navigation.screens.character));
 
   if (btnSaveCharacter) {
     btnSaveCharacter.addEventListener("click", () => {
@@ -139,107 +106,125 @@ document.addEventListener("DOMContentLoaded", () => {
       const genderInput = document.querySelector('input[name="gender"]:checked');
       const eppCheckboxes = document.querySelectorAll('input[name="epp"]:checked');
 
-      if (!nameInput || !nameInput.value.trim()) {
-        showToast("Por favor, ingresá el nombre del técnico/a.");
-        return;
-      }
-      if (!genderInput) {
-        showToast("Por favor, seleccioná tu identidad/género.");
-        return;
-      }
-      if (eppCheckboxes.length < 6) {
-        showToast("¡Atención! Debés colocar todo el EPP obligatorio.");
-        return;
-      }
+      if (!nameInput || !nameInput.value.trim()) return showToast("Ingresá el nombre.");
+      if (!genderInput) return showToast("Seleccioná el género.");
+      if (eppCheckboxes.length < 6) return showToast("Debés colocar todo el EPP.");
 
       gameState.playerName = nameInput.value.trim();
       gameState.gender = genderInput.value;
       gameState.epp = Array.from(eppCheckboxes).map(cb => cb.value);
 
-      const displayTitle = document.getElementById("displayPlayerName");
-      const displayDetails = document.getElementById("displayPlayerDetails");
-      
-      if (displayTitle) displayTitle.textContent = `TÉCNICO/A: ${gameState.playerName.toUpperCase()}`;
-      if (displayDetails) displayDetails.textContent = `Género: ${gameState.gender} | EPP Verificado (${gameState.epp.length}/6 items)`;
+      document.getElementById("displayPlayerName").textContent = `TÉCNICO/A: ${gameState.playerName.toUpperCase()}`;
+      document.getElementById("displayPlayerDetails").textContent = `Género: ${gameState.gender} | EPP Verificado (${gameState.epp.length}/6 items)`;
 
-      showToast(`¡Bienvenido/a, ${gameState.playerName}! Equipamiento verificado.`);
       Navigation.goTo(Navigation.screens.equipment);
     });
   }
 
   if (btnEquipmentContinue) {
     btnEquipmentContinue.addEventListener("click", () => {
-      updateBudgetUI();
+      updateHUD();
       Navigation.goTo(Navigation.screens.exploration);
     });
   }
 
   // Selección de Zona
-  const zoneCards = document.querySelectorAll(".zone-card");
-  zoneCards.forEach(card => {
+  document.querySelectorAll(".zone-card").forEach(card => {
     card.addEventListener("click", () => {
-      zoneCards.forEach(c => c.classList.remove("selected"));
+      document.querySelectorAll(".zone-card").forEach(c => c.classList.remove("selected"));
       card.classList.add("selected");
+
       gameState.selectedZone = ZONES_DATA[card.dataset.zone];
-      checkActionState();
+      gameState.executedMethods = [];
+      gameState.pos = gameState.selectedZone.basePoS;
+
+      document.querySelectorAll(".method-card").forEach(mc => mc.classList.remove("completed", "selected"));
+      gameState.selectedMethod = null;
+
+      updateHUD();
+      checkActionButtons();
     });
   });
 
   // Selección de Método Prospectivo
-  const methodCards = document.querySelectorAll(".method-card");
-  methodCards.forEach(card => {
+  document.querySelectorAll(".method-card").forEach(card => {
     card.addEventListener("click", () => {
-      methodCards.forEach(c => c.classList.remove("selected"));
+      if (card.classList.contains("completed")) return;
+      document.querySelectorAll(".method-card").forEach(c => c.classList.remove("selected"));
       card.classList.add("selected");
       gameState.selectedMethod = METHODS_DATA[card.dataset.method];
-      checkActionState();
+      checkActionButtons();
     });
   });
 
-  function checkActionState() {
-    if (btnRunSeismic) {
-      btnRunSeismic.disabled = !(gameState.selectedZone && gameState.selectedMethod);
-    }
+  function checkActionButtons() {
+    if (btnRunStudy) btnRunStudy.disabled = !(gameState.selectedZone && gameState.selectedMethod);
+    if (btnDrillWell) btnDrillWell.disabled = !(gameState.selectedZone && gameState.budget >= gameState.selectedZone.drillingCost);
   }
 
   // Ejecutar Estudio
-  if (btnRunSeismic) {
-    btnRunSeismic.addEventListener("click", () => {
-      const zone = gameState.selectedZone;
+  if (btnRunStudy) {
+    btnRunStudy.addEventListener("click", () => {
       const method = gameState.selectedMethod;
-
-      if (gameState.budget < method.cost) {
-        showToast("Presupuesto insuficiente para este método prospectivo.");
-        return;
-      }
+      if (gameState.budget < method.cost) return showToast("Presupuesto insuficiente.");
 
       gameState.budget -= method.cost;
-      gameState.explorationHistory.push({ zone: zone.name, method: method.name });
-      updateBudgetUI();
+      gameState.pos = Math.min(95, gameState.pos + method.posBonus);
+      gameState.executedMethods.push(method.key);
+
+      const activeCard = document.querySelector(`.method-card[data-method="${method.key}"]`);
+      if (activeCard) {
+        activeCard.classList.remove("selected");
+        activeCard.classList.add("completed");
+      }
+      gameState.selectedMethod = null;
+
+      updateHUD();
+      checkActionButtons();
 
       const seismicResult = document.getElementById("seismicResult");
-      const seismicTitle = document.getElementById("seismicTitle");
-      const seismicDetails = document.getElementById("seismicDetails");
-
-      if (seismicResult && seismicTitle && seismicDetails) {
-        seismicTitle.textContent = `REPORTE: ${method.name.toUpperCase()} - ${zone.name.toUpperCase()}`;
-        seismicDetails.textContent = `${method.report} | Objetivo: ${zone.target}. Costo estimado de Perforación: $${zone.drillingCost.toLocaleString()} USD.`;
+      if (seismicResult) {
+        seismicResult.className = "seismic-result";
+        document.getElementById("seismicTitle").textContent = `ESTUDIO: ${method.name.toUpperCase()}`;
+        document.getElementById("seismicDetails").textContent = `${method.report} Probabilidad actual de éxito: ${gameState.pos}%.`;
         seismicResult.classList.remove("hidden");
-      }
-
-      showToast(`Estudio ejecutado. Presupuesto restado: -$${method.cost.toLocaleString()} USD`);
-
-      btnRunSeismic.classList.add("hidden");
-      if (btnGoToDrilling) {
-        btnGoToDrilling.classList.remove("hidden");
       }
     });
   }
 
-  // Avanzar a Perforación
-  if (btnGoToDrilling) {
-    btnGoToDrilling.addEventListener("click", () => {
-      showToast("Comienza la Etapa 3: Perforación del Pozo Exploratorio.");
+  // Perforar Pozo y Verificación de Game Over
+  if (btnDrillWell) {
+    btnDrillWell.addEventListener("click", () => {
+      const zone = gameState.selectedZone;
+      if (gameState.budget < zone.drillingCost) return showToast("Presupuesto insuficiente.");
+
+      gameState.budget -= zone.drillingCost;
+      const randomNumber = Math.floor(Math.random() * 100) + 1;
+      const isSuccess = randomNumber <= gameState.pos;
+
+      updateHUD();
+
+      if (isSuccess) {
+        const seismicResult = document.getElementById("seismicResult");
+        seismicResult.className = "seismic-result success";
+        document.getElementById("seismicTitle").textContent = "¡DESCUBRIMIENTO EXITOSO!";
+        document.getElementById("seismicDetails").textContent = `Se halló reservorio productivo en ${zone.name}. ¡Siguiente etapa disponible!`;
+        seismicResult.classList.remove("hidden");
+        showToast("¡Éxito en la perforación!", 4000);
+      } else {
+        // DISPARAR GAME OVER SI ES POZO SECO
+        document.getElementById("gameOverDetails").textContent = 
+          `Se perforó en ${zone.name} con un ${gameState.pos}% de probabilidad de éxito. El pozo resultó seco y se perdieron $${zone.drillingCost.toLocaleString()} USD.`;
+        
+        Navigation.goTo(Navigation.screens.gameOver);
+      }
+    });
+  }
+
+  // Botón Reintentar
+  if (btnRestart) {
+    btnRestart.addEventListener("click", () => {
+      resetGame();
     });
   }
 });
