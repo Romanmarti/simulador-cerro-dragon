@@ -16,6 +16,7 @@
   margin: 0;
   padding: 0;
   user-select: none;
+  -webkit-touch-callout: none;
 }
 
 body {
@@ -30,7 +31,6 @@ body {
   padding: 10px;
 }
 
-/* REGLA CRÍTICA PARA OCULTAR ELEMENTOS */
 .hidden {
   display: none !important;
 }
@@ -42,7 +42,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0;
 }
 
 .bg-grid {
@@ -309,7 +308,7 @@ body {
   color: #fff;
 }
 
-/* MARCO Y CANVAS PANORÁMICO */
+/* MAPA Y CANVAS */
 .pixel-map-wrapper {
   width: 100%;
   height: calc(82vh - 100px);
@@ -328,6 +327,39 @@ body {
   width: 100%;
   height: 100%;
   image-rendering: pixelated;
+}
+
+/* JOYSTICK TÁCTIL MÓVIL */
+.virtual-joystick {
+  position: absolute;
+  bottom: 25px;
+  left: 25px;
+  width: 110px;
+  height: 110px;
+  z-index: 50;
+  pointer-events: auto;
+}
+
+.joystick-base {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(0, 229, 255, 0.4);
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.joystick-stick {
+  width: 50px;
+  height: 50px;
+  background: rgba(0, 229, 255, 0.6);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  position: absolute;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
 }
 
 /* BOTONES GENERALES */
@@ -358,7 +390,7 @@ body {
   color: #fff;
 }
 
-/* MODALES Y VISORES */
+/* MODALES */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0;
@@ -368,28 +400,6 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 100;
-}
-
-.panel-3d {
-  max-width: 1000px !important;
-  width: 95%;
-}
-
-.canvas-container.canvas-large {
-  width: 100%;
-  height: 480px;
-  margin: 15px 0;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  overflow: hidden;
-  background: #000;
-}
-
-.sketchfab-embed-wrapper, 
-.sketchfab-embed-wrapper iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
 }
 
 .educational-card {
@@ -469,26 +479,11 @@ body {
 
 /* ANIMACIÓN ROJA GAME OVER */
 @keyframes redFlashEffect {
-  0% {
-    background-color: rgba(255, 0, 0, 0.8);
-    transform: scale(1);
-  }
-  25% {
-    background-color: rgba(180, 0, 0, 0.9);
-    transform: scale(1.02) translate(-5px, 5px);
-  }
-  50% {
-    background-color: rgba(255, 0, 0, 0.7);
-    transform: scale(0.99) translate(5px, -5px);
-  }
-  75% {
-    background-color: rgba(120, 0, 0, 0.95);
-    transform: scale(1.01) translate(-3px, -3px);
-  }
-  100% {
-    background-color: var(--panel-bg);
-    transform: scale(1) translate(0, 0);
-  }
+  0% { background-color: rgba(255, 0, 0, 0.8); transform: scale(1); }
+  25% { background-color: rgba(180, 0, 0, 0.9); transform: scale(1.02) translate(-5px, 5px); }
+  50% { background-color: rgba(255, 0, 0, 0.7); transform: scale(0.99) translate(5px, -5px); }
+  75% { background-color: rgba(120, 0, 0, 0.95); transform: scale(1.01) translate(-3px, -3px); }
+  100% { background-color: var(--panel-bg); transform: scale(1) translate(0, 0); }
 }
 
 .panel-game-over {
@@ -508,19 +503,34 @@ body {
   background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(230, 184, 0, 0.2));
   border: 2px solid var(--primary-gold);
   border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: 16px;
+  margin-bottom: 12px;
   box-shadow: 0 0 30px rgba(230, 184, 0, 0.4);
 }
 
 .victory-title {
   color: var(--primary-gold-hover);
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  line-height: 1.3;
   text-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
+}
+
+.victory-canvas-wrapper {
+  width: 100%;
+  height: 220px;
+  background: #111;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+#victoryCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
 }
 
 .toast { 

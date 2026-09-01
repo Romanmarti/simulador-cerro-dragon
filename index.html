@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Recuperando la Cuenca - Cuenca del Noroeste</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -86,13 +86,10 @@
 
         <div class="educational-card">
           <h4>INFORMACIÓN DEL YACIMIENTO: APARATO DE BOMBEO MECÁNICO</h4>
-          <p>El Aparato de Bombeo Mecánico (Pumpjack/Balancín) es un sistema mecánico de superficie utilizado para levantar artificialmente el petróleo cuando la presión de fondo del yacimiento es insuficiente.</p>
+          <p>El Aparato de Bombeo Mecánico (Pumpjack/Balancín) es un sistema mecánico de superficie utilizado para levantar artificialmente el petróleo cuando la presión de fondo del yacimiento es insuficiente. Lo verás en funcionamiento directo dentro del campo de operaciones.</p>
         </div>
 
-        <div class="exploration-actions">
-          <button id="btnOpen3DModal" class="btn btn-secondary">VER VISOR 3D (PUMPJACK)</button>
-          <button id="btnEquipmentContinue" class="btn">IR A EXPLORACIÓN</button>
-        </div>
+        <button id="btnEquipmentContinue" class="btn" style="margin-top: 15px;">IR A EXPLORACIÓN</button>
       </div>
     </div>
 
@@ -196,11 +193,17 @@
 
         <div class="well-info-box">
           <span class="info-tag">🎮 CONTROLES Y GUÍA:</span>
-          <div id="wellInfoText" class="info-details">Usá [W][A][S][D] o las FLECHAS para moverte. Acercate a un pozo bloqueado y presioná [E] o hacé clic sobre él.</div>
+          <div id="wellInfoText" class="info-details">Usá [W][A][S][D] o el joystick táctil. Acercate a un pozo bloqueado y presioná [E] o hacé clic sobre él.</div>
         </div>
 
         <div class="pixel-map-wrapper">
           <canvas id="pixelCanvas"></canvas>
+          <!-- Joystick Virtual para Celular -->
+          <div id="virtualJoystick" class="virtual-joystick hidden">
+            <div id="joystickBase" class="joystick-base">
+              <div id="joystickStick" class="joystick-stick"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -223,11 +226,16 @@
       <div class="panel panel-large">
         <div class="victory-banner">
           <h1 class="victory-title">
-            ¡FELICITACIONES RECUPERASTE LA CUENCA,<br>PRÓXIMA PARADA VACA MUERTA!
+            ¡FELICITACIONES RECUPERASTE VACA MUERTA!
           </h1>
         </div>
+
+        <!-- Canvas para animación del camión petrolero -->
+        <div class="victory-canvas-wrapper">
+          <canvas id="victoryCanvas"></canvas>
+        </div>
         
-        <div class="hud-stats">
+        <div class="hud-stats" style="margin-top: 15px;">
           <div>
             <span class="stat-label">POZOS ACTIVOS:</span>
             <span id="vicActiveWells" class="stat-value highlight-green">5/5</span>
@@ -246,27 +254,6 @@
       </div>
     </div>
 
-  </div>
-
-  <!-- MODAL VISOR 3D GIGANTE -->
-  <div id="modal3D" class="modal-overlay hidden">
-    <div class="panel panel-3d">
-      <span class="badge">EQUIPAMIENTO DE SUPERFICIE</span>
-      <h2 class="subtitle">APARATO DE BOMBEO MECÁNICO (PUMPJACK)</h2>
-      
-      <div class="canvas-container canvas-large">
-        <div class="sketchfab-embed-wrapper">
-          <iframe title="Pumpjack 3D Model" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/ee1536b1392e47c1b52a5c531d0540d2/embed"></iframe>
-        </div>
-      </div>
-
-      <div class="educational-card">
-        <h4>Ficha Técnica Educativa:</h4>
-        <p>El Aparato de Bombeo Mecánico (Pumpjack) impulsa la bomba instalada en el fondo del pozo para llevar el petróleo hacia la superficie.</p>
-      </div>
-
-      <button id="btnClose3DModal" class="btn">CERRAR VISOR</button>
-    </div>
   </div>
 
   <!-- MODAL PREGUNTAS TÉCNICAS -->
