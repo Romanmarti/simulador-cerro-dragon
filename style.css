@@ -517,10 +517,18 @@ body {
   text-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
 }
 
+.victory-next-step {
+  color: var(--accent-cyan);
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 6px;
+  letter-spacing: 1px;
+}
+
 .victory-canvas-wrapper {
   width: 100%;
-  height: 220px;
-  background: #111;
+  height: 240px;
+  background: #0d131a;
   border: 2px solid var(--border-color);
   border-radius: 6px;
   overflow: hidden;

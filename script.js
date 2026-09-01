@@ -192,7 +192,6 @@ function initPixelMap() {
   canvas.addEventListener("mousemove", handleMouseMove);
   canvas.addEventListener("click", handleCanvasClick);
 
-  // Activar controles táctiles de joystick si es dispositivo móvil
   const joystickEl = document.getElementById("virtualJoystick");
   if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
     joystickEl.classList.remove("hidden");
@@ -363,11 +362,9 @@ function renderPixelMap() {
   const w = canvas.width;
   const h = canvas.height;
 
-  // Terreno patagónico / norteño
   ctx.fillStyle = "#1e2e17";
   ctx.fillRect(0, 0, w, h);
 
-  // Caminos de tierra
   ctx.fillStyle = "#5c4028";
   const w1 = gameState.wellsData[1];
   const w2 = gameState.wellsData[2];
@@ -387,9 +384,6 @@ function renderPixelMap() {
   drawDetailedPlayer();
 }
 
-/**
- * PUMPJACK (APARATO DE BOMBEO MECÁNICO) EN PIXEL ART DETALLADO
- */
 function drawPumpjackWell(well) {
   ctx.save();
   ctx.translate(well.x, well.y);
@@ -401,19 +395,15 @@ function drawPumpjackWell(well) {
   }
 
   if (well.status === "active") {
-    // Base de cemento / estructura
     ctx.fillStyle = "#4a4e51";
     ctx.fillRect(-30, -10, 60, 20);
 
-    // Cabezal de pozo (Wellhead)
     ctx.fillStyle = "#718096";
     ctx.fillRect(-8, -22, 16, 14);
 
-    // Samson post (Torre central de soporte)
     ctx.fillStyle = "#2d3748";
     ctx.fillRect(-6, -38, 12, 28);
 
-    // Balancín oscilante (Beam) accionado por motor
     const angle = Math.sin(animTimer * 2.5) * 0.22;
     ctx.save();
     ctx.translate(0, -38);
@@ -422,24 +412,20 @@ function drawPumpjackWell(well) {
     ctx.fillRect(-35, -5, 70, 10);
     ctx.restore();
 
-    // Cabeza de caballo (Horsehead) y barra pulida con movimiento
     const headYOffset = Math.sin(animTimer * 2.5) * 6;
     ctx.fillStyle = "#e53e3e";
     ctx.fillRect(22, -44 + headYOffset, 8, 22);
 
-    // Luz LED indicadora de pozo activo
     ctx.fillStyle = "#00ff88";
     ctx.beginPath();
     ctx.arc(0, -52, 6, 0, Math.PI * 2);
     ctx.fill();
 
-    // Nombre del Pozo
     ctx.fillStyle = "#fff";
     ctx.font = "bold 12px monospace";
     ctx.textAlign = "center";
     ctx.fillText(well.name, 0, 36);
   } else {
-    // Pozo Bloqueado
     ctx.fillStyle = "rgba(15, 20, 25, 0.95)";
     ctx.fillRect(-35, -35, 70, 70);
     ctx.strokeStyle = "#ff4444";
@@ -459,62 +445,50 @@ function drawPumpjackWell(well) {
   ctx.restore();
 }
 
-/**
- * PERSONAJE DETALLADO CON EPP COMPLETO (CASCO, LENTES, CHALECO, GUANTES, BOTAS)
- */
 function drawDetailedPlayer() {
   ctx.save();
   ctx.translate(player.x, player.y);
 
-  // Sombra en el suelo
   ctx.fillStyle = "rgba(0,0,0,0.4)";
   ctx.beginPath();
   ctx.ellipse(0, 16, 12, 6, 0, 0, Math.PI * 2);
   ctx.fill();
 
-  // Botas de seguridad (Negras/Gris oscuro con punta S3)
   ctx.fillStyle = "#1a202c";
   ctx.fillRect(-9, 10, 7, 6);
   ctx.fillRect(2, 10, 7, 6);
-  ctx.fillStyle = "#cbd5e0"; // puntera de acero
+  ctx.fillStyle = "#cbd5e0";
   ctx.fillRect(-9, 14, 7, 2);
   ctx.fillRect(2, 14, 7, 2);
 
-  // Ropa ignífuga (Azul marino / mameluco industrial)
   ctx.fillStyle = "#2b6cb0";
   ctx.fillRect(-9, -4, 18, 15);
 
-  // Chaleco de alta visibilidad reflectante (Naranja vial con tiras amarillas)
   ctx.fillStyle = "#dd6b20";
   ctx.fillRect(-11, -5, 22, 13);
-  ctx.fillStyle = "#ecc94b"; // Faja reflectante
+  ctx.fillStyle = "#ecc94b";
   ctx.fillRect(-11, -1, 22, 3);
 
-  // Guantes de trabajo (Color marrón cuero)
   ctx.fillStyle = "#b7791f";
   ctx.fillRect(-14, 0, 4, 6);
   ctx.fillRect(10, 0, 4, 6);
 
-  // Cuello / Cabeza
   ctx.fillStyle = "#fbd38d";
   ctx.fillRect(-5, -12, 10, 8);
 
-  // Lentes de protección (Gafas de seguridad oscuras/transparentes)
   ctx.fillStyle = "#00e5ff";
   ctx.fillRect(-4, -10, 8, 3);
 
-  // Casco de seguridad (Color amarillo reglamentario EPP)
   ctx.fillStyle = "#ecc94b";
   ctx.fillRect(-8, -20, 16, 9);
-  // Visera del casco
   ctx.fillRect(-10, -13, 20, 3);
 
   ctx.restore();
 }
 
-/* ANIMACIÓN DE VICTORIA: CAMIÓN PETROLERO */
+/* ANIMACIÓN DE VICTORIA: CAMIÓN PETROLERO FACHERO RUTA A VACA MUERTA */
 let vicCanvas, vicCtx;
-let truckX = -150;
+let truckX = -200;
 
 function initVictoryAnimation() {
   vicCanvas = document.getElementById("victoryCanvas");
@@ -522,19 +496,19 @@ function initVictoryAnimation() {
 
   const rect = vicCanvas.getBoundingClientRect();
   vicCanvas.width = rect.width || 800;
-  vicCanvas.height = rect.height || 220;
+  vicCanvas.height = rect.height || 240;
   vicCtx = vicCanvas.getContext("2d");
 
-  truckX = -150;
+  truckX = -200;
   requestAnimationFrame(victoryLoop);
 }
 
 function victoryLoop() {
   if (gameState.currentScreen !== "victoryScreen") return;
 
-  truckX += 2.5;
-  if (truckX > vicCanvas.width + 150) {
-    truckX = -150;
+  truckX += 3;
+  if (truckX > vicCanvas.width + 250) {
+    truckX = -250;
   }
 
   renderVictoryScene();
@@ -545,63 +519,170 @@ function renderVictoryScene() {
   const w = vicCanvas.width;
   const h = vicCanvas.height;
 
-  // Cielo del yacimiento atardecer
-  vicCtx.fillStyle = "#1a120b";
+  // Fondo Atardecer en la ruta
+  let grad = vicCtx.createLinearGradient(0, 0, 0, h);
+  grad.addColorStop(0, "#0b0c10");
+  grad.addColorStop(0.6, "#1f2833");
+  grad.addColorStop(1, "#3a1c0d");
+  vicCtx.fillStyle = grad;
   vicCtx.fillRect(0, 0, w, h);
 
-  // Suelo y ruta petrolera
-  vicCtx.fillStyle = "#2f3e46";
-  vicCtx.fillRect(0, h - 70, w, 70);
-  vicCtx.fillStyle = "#e2e8f0"; // Línea central de ruta
-  for (let i = 0; i < w; i += 40) {
-    vicCtx.fillRect((i - (truckX * 0.5)) % w, h - 38, 20, 4);
+  // Sol del atardecer
+  vicCtx.fillStyle = "rgba(230, 184, 0, 0.3)";
+  vicCtx.beginPath();
+  vicCtx.arc(w * 0.75, h * 0.45, 45, 0, Math.PI * 2);
+  vicCtx.fill();
+
+  // Ruta asfaltada con banquina
+  vicCtx.fillStyle = "#1a202c";
+  vicCtx.fillRect(0, h - 80, w, 80);
+
+  // Línea amarilla central discontinua en movimiento
+  vicCtx.fillStyle = "#ecc94b";
+  for (let i = -100; i < w + 100; i += 50) {
+    vicCtx.fillRect((i - (truckX * 1.5)) % (w + 100), h - 42, 28, 4);
   }
 
-  // Dibujar camión cisterna con petróleo transportado
+  // DIBUJO DEL CAMIÓN FACHERO EN PIXEL ART AVANZADO
   vicCtx.save();
-  const truckY = h - 110;
+  const truckY = h - 125;
   vicCtx.translate(truckX, truckY);
 
-  // Cabina del camión (Color rojo/industrial)
-  vicCtx.fillStyle = "#c53030";
-  vicCtx.fillRect(70, 10, 45, 35);
-  // Parabrisas
-  vicCtx.fillStyle = "#63b3ed";
-  vicCtx.fillRect(95, 14, 18, 16);
-  // Humo de escape
-  vicCtx.fillStyle = "rgba(255,255,255,0.4)";
-  vicCtx.beginPath();
-  vicCtx.arc(118, 10, 6 + Math.random() * 4, 0, Math.PI * 2);
-  vicCtx.fill();
+  // Sombra del camión en el suelo
+  vicCtx.fillStyle = "rgba(0,0,0,0.6)";
+  vicCtx.fillRect(-90, 50, 230, 10);
 
-  // Cisterna / Tanque de petróleo (Color aluminio/acero con leyenda CRUDO)
+  // 1. TANQUE CISTERNA CROMADO Y METALIZADO
+  let tankGrad = vicCtx.createLinearGradient(0, -10, 0, 40);
+  tankGrad.addColorStop(0, "#e2e8f0");
+  tankGrad.addColorStop(0.3, "#cbd5e0");
+  tankGrad.addColorStop(0.7, "#4a5568");
+  tankGrad.addColorStop(1, "#1a202c");
+  vicCtx.fillStyle = tankGrad;
+  vicCtx.fillRect(-90, 0, 140, 42);
+
+  // Tapas y bordes redondeados del tanque
   vicCtx.fillStyle = "#a0aec0";
-  vicCtx.fillRect(-70, 12, 140, 36);
-  vicCtx.fillStyle = "#1a202c";
-  vicCtx.font = "bold 11px monospace";
+  vicCtx.beginPath();
+  vicCtx.ellipse(-90, 21, 10, 21, 0, 0, Math.PI * 2);
+  vicCtx.fill();
+
+  // Detalle de franja de fuego / livery deportivo en el tanque
+  vicCtx.fillStyle = "#e53e3e";
+  vicCtx.beginPath();
+  vicCtx.moveTo(-80, 20);
+  vicCtx.lineTo(-20, 20);
+  vicCtx.lineTo(-10, 32);
+  vicCtx.lineTo(-80, 32);
+  vicCtx.fill();
+
+  vicCtx.fillStyle = "#dd6b20";
+  vicCtx.beginPath();
+  vicCtx.moveTo(-75, 23);
+  vicCtx.lineTo(-25, 23);
+  vicCtx.lineTo(-18, 29);
+  vicCtx.lineTo(-75, 29);
+  vicCtx.fill();
+
+  // Texto impreso en el tanque
+  vicCtx.fillStyle = "#ffffff";
+  vicCtx.font = "900 11px sans-serif";
   vicCtx.textAlign = "center";
-  vicCtx.fillText("PETRÓLEO VACA MUERTA", 0, 34);
+  vicCtx.fillText("CRUDO NOA ➔ VACA MUERTA", -20, 15);
 
-  // Ruedas del camión (Neumáticos negros con llanta gris)
-  vicCtx.fillStyle = "#1a202c";
+  // Escotillas superiores del tanque
+  vicCtx.fillStyle = "#2d3748";
+  vicCtx.fillRect(-60, -6, 16, 6);
+  vicCtx.fillRect(0, -6, 16, 6);
+
+  // 2. TRACTOR / CABINA AMERICANA CHOPPER (ROJO METALIZADO)
+  let cabGrad = vicCtx.createLinearGradient(0, -15, 0, 45);
+  cabGrad.addColorStop(0, "#f56565");
+  cabGrad.addColorStop(0.5, "#c53030");
+  cabGrad.addColorStop(1, "#742a2a");
+  vicCtx.fillStyle = cabGrad;
+
+  // Capó frontal largo estilo americano
+  vicCtx.fillRect(50, -5, 80, 48);
+  vicCtx.fillRect(110, 8, 25, 35);
+
+  // Rejilla de radiador croma enorme
+  vicCtx.fillStyle = "#edf2f7";
+  vicCtx.fillRect(132, 12, 6, 30);
+  ctx.fillStyle = "#1a202c";
+  for(let g=16; g<40; g+=5) {
+    vicCtx.fillRect(133, g, 4, 2);
+  }
+
+  // Tubos de escape cromados dobles expulsando humo
+  vicCtx.fillStyle = "#e2e8f0";
+  vicCtx.fillRect(55, -30, 6, 30);
+  vicCtx.fillRect(63, -30, 6, 30);
+
+  // Animación de Humo de escape
+  vicCtx.fillStyle = "rgba(226, 232, 240, 0.5)";
   vicCtx.beginPath();
-  vicCtx.arc(-45, 48, 11, 0, Math.PI * 2);
-  vicCtx.arc(-20, 48, 11, 0, Math.PI * 2);
-  vicCtx.arc(85, 48, 11, 0, Math.PI * 2);
+  vicCtx.arc(58 + Math.random() * 3, -36 - (truckX % 10), 8, 0, Math.PI * 2);
+  vicCtx.arc(66 + Math.random() * 3, -42 - (truckX % 12), 11, 0, Math.PI * 2);
   vicCtx.fill();
 
-  vicCtx.fillStyle = "#cbd5e0";
+  // Parabrisas ahumado con reflejo
+  vicCtx.fillStyle = "#2b6cb0";
+  vicCtx.fillRect(80, -2, 28, 18);
+  vicCtx.fillStyle = "#63b3ed"; // Brillo
   vicCtx.beginPath();
-  vicCtx.arc(-45, 48, 4, 0, Math.PI * 2);
-  vicCtx.arc(-20, 48, 4, 0, Math.PI * 2);
-  vicCtx.arc(85, 48, 4, 0, Math.PI * 2);
+  vicCtx.moveTo(82, -1);
+  vicCtx.lineTo(95, -1);
+  vicCtx.lineTo(82, 14);
   vicCtx.fill();
 
-  // Técnico asomado en la cabina con su casco amarillo
+  // Conductor con casco adentro
   vicCtx.fillStyle = "#fbd38d";
-  vicCtx.fillRect(85, 18, 8, 10);
-  vicCtx.fillStyle = "#ecc94b"; // Casco
-  vicCtx.fillRect(83, 15, 12, 5);
+  vicCtx.fillRect(86, 5, 8, 8);
+  vicCtx.fillStyle = "#ecc94b"; // Casco EPP
+  vicCtx.fillRect(84, 2, 12, 4);
+
+  // Faros delanteros encendidos con haz de luz Neón
+  vicCtx.fillStyle = "#fff5f5";
+  vicCtx.fillRect(134, 28, 4, 8);
+  
+  let lightGrad = vicCtx.createRadialGradient(138, 32, 2, 200, 32, 60);
+  lightGrad.addColorStop(0, "rgba(255, 255, 200, 0.8)");
+  lightGrad.addColorStop(1, "rgba(255, 255, 200, 0)");
+  vicCtx.fillStyle = lightGrad;
+  vicCtx.beginPath();
+  vicCtx.moveTo(138, 32);
+  vicCtx.lineTo(240, 0);
+  vicCtx.lineTo(240, 65);
+  vicCtx.fill();
+
+  // 3. RUEDAS ANCHAS CON LLANTAS DE ALEACIÓN CROMADAS
+  const drawWheel = (wx, wy) => {
+    // Neumático
+    vicCtx.fillStyle = "#0d1117";
+    vicCtx.beginPath();
+    vicCtx.arc(wx, wy, 13, 0, Math.PI * 2);
+    vicCtx.fill();
+
+    // Llanta Croma
+    vicCtx.fillStyle = "#e2e8f0";
+    vicCtx.beginPath();
+    vicCtx.arc(wx, wy, 7, 0, Math.PI * 2);
+    vicCtx.fill();
+
+    // Centro
+    vicCtx.fillStyle = "#1a202c";
+    vicCtx.beginPath();
+    vicCtx.arc(wx, wy, 3, 0, Math.PI * 2);
+    vicCtx.fill();
+  };
+
+  // Ejes del camión
+  drawWheel(-70, 44);
+  drawWheel(-42, 44);
+  drawWheel(20, 44);
+  drawWheel(72, 44);
+  drawWheel(100, 44);
 
   vicCtx.restore();
 }
