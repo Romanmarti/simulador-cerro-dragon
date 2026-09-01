@@ -28,7 +28,7 @@ body {
   justify-content: center;
   align-items: center;
   overflow-x: hidden;
-  padding: 10px;
+  padding: 8px;
 }
 
 .hidden {
@@ -78,7 +78,7 @@ body {
   border: 2px solid var(--border-color);
   box-shadow: 0 0 35px rgba(0, 0, 0, 0.9);
   border-radius: 8px;
-  padding: 24px;
+  padding: 20px;
   text-align: center;
 }
 
@@ -90,7 +90,9 @@ body {
 .panel-map {
   max-width: 100% !important;
   width: 100%;
-  padding: 16px !important;
+  padding: 10px !important;
+  display: flex;
+  flex-direction: column;
 }
 
 .badge {
@@ -104,27 +106,27 @@ body {
 }
 
 .title {
-  font-size: 2.2rem;
+  font-size: 2rem;
   color: #fff;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .subtitle {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   color: var(--primary-gold);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .description {
   color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin-bottom: 16px;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  margin-bottom: 14px;
 }
 
 .form-group {
   text-align: left;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .form-label {
@@ -164,52 +166,53 @@ body {
 
 .epp-section {
   text-align: left;
-  margin-top: 15px;
-  margin-bottom: 20px;
+  margin-top: 12px;
+  margin-bottom: 16px;
   background: rgba(0, 0, 0, 0.3);
-  padding: 14px;
+  padding: 12px;
   border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .epp-instruction {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .epp-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 8px;
 }
 
 .epp-checkbox {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   cursor: pointer;
 }
 
 .hud-stats {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   background: rgba(0, 0, 0, 0.6);
-  padding: 10px;
+  padding: 8px 10px;
   border-radius: 6px;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
   border: 1px solid var(--border-color);
+  font-size: 0.75rem;
 }
 
 .stat-label {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
-  margin-right: 5px;
+  margin-right: 4px;
 }
 
 .stat-value {
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: bold;
   color: #fff;
 }
@@ -218,29 +221,29 @@ body {
 
 .section-title {
   text-align: left;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--primary-gold);
-  margin: 14px 0 8px 0;
+  margin: 10px 0 6px 0;
   font-weight: bold;
 }
 
 .zones-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 8px;
 }
 
 .methods-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 8px;
 }
 
 .zone-card, .method-card {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--border-color);
   border-radius: 6px;
-  padding: 10px;
+  padding: 8px;
   text-align: left;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -264,61 +267,60 @@ body {
 }
 
 .zone-card h3, .method-info h4 {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #fff;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .zone-desc, .method-info p {
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 
 .zone-cost-tag, .price {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--primary-gold);
-  margin-top: 6px;
+  margin-top: 4px;
   font-weight: bold;
 }
 
 .exploration-actions {
   display: flex;
-  gap: 12px;
-  margin-top: 15px;
+  gap: 10px;
+  margin-top: 12px;
 }
 
 .well-info-box {
   background: rgba(0, 0, 0, 0.5);
   border: 1px solid var(--border-color);
-  padding: 10px;
+  padding: 8px 10px;
   border-radius: 4px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   text-align: left;
 }
 
 .info-tag {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--primary-gold);
   font-weight: bold;
 }
 
 .info-details {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #fff;
 }
 
-/* MAPA Y CANVAS */
+/* MAPA Y CANVAS RESPONSIVE */
 .pixel-map-wrapper {
   width: 100%;
-  height: calc(82vh - 100px);
-  min-height: 680px;
+  height: calc(100vh - 170px);
+  min-height: 380px;
   border: 2px solid var(--border-color);
   border-radius: 6px;
   overflow: hidden;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
   background: #000;
-  margin-bottom: 10px;
   position: relative;
 }
 
@@ -329,13 +331,14 @@ body {
   image-rendering: pixelated;
 }
 
-/* JOYSTICK TÁCTIL MÓVIL */
+/* JOYSTICK TÁCTIL CENTRADO EN EL MEDIO (ENTRE POZO 4 Y 5) */
 .virtual-joystick {
   position: absolute;
-  bottom: 25px;
-  left: 25px;
-  width: 110px;
-  height: 110px;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85px;
+  height: 85px;
   z-index: 50;
   pointer-events: auto;
 }
@@ -343,23 +346,24 @@ body {
 .joystick-base {
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(0, 229, 255, 0.4);
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid var(--accent-cyan);
   border-radius: 50%;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.3);
 }
 
 .joystick-stick {
-  width: 50px;
-  height: 50px;
-  background: rgba(0, 229, 255, 0.6);
+  width: 38px;
+  height: 38px;
+  background: rgba(0, 229, 255, 0.8);
   border: 2px solid #fff;
   border-radius: 50%;
   position: absolute;
-  box-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.9);
 }
 
 /* BOTONES GENERALES */
@@ -369,7 +373,7 @@ body {
   color: #000;
   font-weight: bold;
   font-size: 0.85rem;
-  padding: 12px 20px;
+  padding: 10px 16px;
   border-radius: 4px;
   cursor: pointer;
   width: 100%;
@@ -390,7 +394,7 @@ body {
   color: #fff;
 }
 
-/* MODALES */
+/* MODAL DE PREGUNTAS CON VISOR 3D INCLUIDO */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0;
@@ -400,40 +404,44 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 100;
+  padding: 10px;
 }
 
 .educational-card {
   text-align: left;
   background: rgba(0, 0, 0, 0.4);
   border-left: 4px solid var(--primary-gold);
-  padding: 12px;
-  margin-bottom: 15px;
+  padding: 10px;
+  margin-bottom: 12px;
 }
 
 .educational-card h4 {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--primary-gold);
   margin-bottom: 4px;
 }
 
 .educational-card p {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
 }
 
 .pixel-quiz-panel {
-  max-width: 600px;
-  width: 90%;
+  max-width: 620px;
+  width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
   border-color: var(--primary-gold);
+  padding: 16px;
 }
 
 .quiz-question-text {
   text-align: left;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   background: rgba(0, 0, 0, 0.5);
-  padding: 12px;
+  padding: 10px;
   border-left: 3px solid var(--accent-cyan);
-  margin: 12px 0;
+  margin: 10px 0;
 }
 
 .quiz-options-grid {
@@ -446,11 +454,11 @@ body {
   background: #1a232c;
   border: 1px solid var(--border-color);
   color: #fff;
-  padding: 12px;
+  padding: 10px;
   text-align: left;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
 }
 
 .btn-quiz-option:hover {
@@ -459,9 +467,9 @@ body {
 }
 
 .quiz-feedback-box {
-  padding: 12px;
+  padding: 10px;
   border-radius: 4px;
-  margin: 12px 0;
+  margin: 10px 0;
   text-align: left;
 }
 
@@ -475,6 +483,41 @@ body {
   background: rgba(255, 68, 68, 0.12); 
   border: 1px solid #ff4444; 
   color: #ffaa00; 
+}
+
+/* VISOR 3D ABAJO DE LAS PREGUNTAS */
+.quiz-3d-container {
+  margin-top: 12px;
+  border-top: 1px dashed var(--border-color);
+  padding-top: 8px;
+  text-align: left;
+}
+
+.quiz-3d-title {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--accent-cyan);
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.sketchfab-quiz-wrapper {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.sketchfab-quiz-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 /* ANIMACIÓN ROJA GAME OVER */
@@ -495,7 +538,7 @@ body {
 .title-danger {
   color: #ff3333 !important;
   text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
-  font-size: 2.5rem;
+  font-size: 2.2rem;
 }
 
 /* PANTALLA VICTORIA */
@@ -503,14 +546,14 @@ body {
   background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(230, 184, 0, 0.2));
   border: 2px solid var(--primary-gold);
   border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
   box-shadow: 0 0 30px rgba(230, 184, 0, 0.4);
 }
 
 .victory-title {
   color: var(--primary-gold-hover);
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -519,15 +562,15 @@ body {
 
 .victory-next-step {
   color: var(--accent-cyan);
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: bold;
-  margin-top: 6px;
+  margin-top: 4px;
   letter-spacing: 1px;
 }
 
 .victory-canvas-wrapper {
   width: 100%;
-  height: 240px;
+  height: 200px;
   background: #0d131a;
   border: 2px solid var(--border-color);
   border-radius: 6px;
@@ -549,7 +592,8 @@ body {
   background: rgba(0, 229, 255, 0.2); 
   border: 1px solid var(--accent-cyan); 
   color: #fff; 
-  padding: 10px 20px; 
+  padding: 8px 16px; 
   border-radius: 4px; 
   z-index: 200; 
+  font-size: 0.82rem;
 }

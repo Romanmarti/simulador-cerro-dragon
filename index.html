@@ -198,7 +198,7 @@
 
         <div class="pixel-map-wrapper">
           <canvas id="pixelCanvas"></canvas>
-          <!-- Joystick Virtual para Celular -->
+          <!-- Joystick Virtual Centrado en Celulares -->
           <div id="virtualJoystick" class="virtual-joystick hidden">
             <div id="joystickBase" class="joystick-base">
               <div id="joystickStick" class="joystick-stick"></div>
@@ -231,7 +231,6 @@
           <p class="victory-next-step">🚛 PRÓXIMA PARADA: VACA MUERTA</p>
         </div>
 
-        <!-- Canvas para animación del camión petrolero fachero -->
         <div class="victory-canvas-wrapper">
           <canvas id="victoryCanvas"></canvas>
         </div>
@@ -257,7 +256,7 @@
 
   </div>
 
-  <!-- MODAL PREGUNTAS TÉCNICAS -->
+  <!-- MODAL PREGUNTAS TÉCNICAS CON VISOR 3D (AIB) -->
   <div id="quizModal" class="modal-overlay hidden">
     <div class="panel pixel-quiz-panel">
       <span id="quizCategoryBadge" class="badge">ETAPA DE EVALUACIÓN</span>
@@ -273,6 +272,21 @@
         <h4 id="quizFeedbackTitle"></h4>
         <p id="quizFeedbackText"></p>
         <button id="btnRetryQuiz" class="btn btn-secondary hidden" style="margin-top: 10px;">REINTENTAR</button>
+      </div>
+
+      <!-- VISOR 3D ABAJO DE LAS PREGUNTAS DEL MAPA -->
+      <div class="quiz-3d-container">
+        <span class="quiz-3d-title">VISOR 3D: APARATO DE BOMBEO MECÁNICO (AIB)</span>
+        <div class="sketchfab-quiz-wrapper">
+          <iframe 
+            title="Aparato de Bombeo Mecánico (AIB) 3D" 
+            allowfullscreen 
+            mozallowfullscreen="true" 
+            webkitallowfullscreen="true" 
+            allow="autoplay; fullscreen; xr-spatial-tracking" 
+            src="https://sketchfab.com/models/05df0c18251048b1bfb9409d66dd8e49/embed?autostart=1&ui_theme=dark">
+          </iframe>
+        </div>
       </div>
 
       <button id="btnCloseQuizModal" class="btn btn-secondary" style="margin-top: 12px;">CERRAR</button>

@@ -251,7 +251,7 @@ function updateJoystickPos(touch) {
   let dx = touch.clientX - centerX;
   let dy = touch.clientY - centerY;
   const dist = Math.hypot(dx, dy);
-  const maxRadius = 40;
+  const maxRadius = 35;
 
   if (dist > maxRadius) {
     dx = (dx / dist) * maxRadius;
@@ -519,7 +519,6 @@ function renderVictoryScene() {
   const w = vicCanvas.width;
   const h = vicCanvas.height;
 
-  // Fondo Atardecer en la ruta
   let grad = vicCtx.createLinearGradient(0, 0, 0, h);
   grad.addColorStop(0, "#0b0c10");
   grad.addColorStop(0.6, "#1f2833");
@@ -527,32 +526,26 @@ function renderVictoryScene() {
   vicCtx.fillStyle = grad;
   vicCtx.fillRect(0, 0, w, h);
 
-  // Sol del atardecer
   vicCtx.fillStyle = "rgba(230, 184, 0, 0.3)";
   vicCtx.beginPath();
   vicCtx.arc(w * 0.75, h * 0.45, 45, 0, Math.PI * 2);
   vicCtx.fill();
 
-  // Ruta asfaltada con banquina
   vicCtx.fillStyle = "#1a202c";
   vicCtx.fillRect(0, h - 80, w, 80);
 
-  // Línea amarilla central discontinua en movimiento
   vicCtx.fillStyle = "#ecc94b";
   for (let i = -100; i < w + 100; i += 50) {
     vicCtx.fillRect((i - (truckX * 1.5)) % (w + 100), h - 42, 28, 4);
   }
 
-  // DIBUJO DEL CAMIÓN FACHERO EN PIXEL ART AVANZADO
   vicCtx.save();
   const truckY = h - 125;
   vicCtx.translate(truckX, truckY);
 
-  // Sombra del camión en el suelo
   vicCtx.fillStyle = "rgba(0,0,0,0.6)";
   vicCtx.fillRect(-90, 50, 230, 10);
 
-  // 1. TANQUE CISTERNA CROMADO Y METALIZADO
   let tankGrad = vicCtx.createLinearGradient(0, -10, 0, 40);
   tankGrad.addColorStop(0, "#e2e8f0");
   tankGrad.addColorStop(0.3, "#cbd5e0");
@@ -561,13 +554,11 @@ function renderVictoryScene() {
   vicCtx.fillStyle = tankGrad;
   vicCtx.fillRect(-90, 0, 140, 42);
 
-  // Tapas y bordes redondeados del tanque
   vicCtx.fillStyle = "#a0aec0";
   vicCtx.beginPath();
   vicCtx.ellipse(-90, 21, 10, 21, 0, 0, Math.PI * 2);
   vicCtx.fill();
 
-  // Detalle de franja de fuego / livery deportivo en el tanque
   vicCtx.fillStyle = "#e53e3e";
   vicCtx.beginPath();
   vicCtx.moveTo(-80, 20);
@@ -584,29 +575,24 @@ function renderVictoryScene() {
   vicCtx.lineTo(-75, 29);
   vicCtx.fill();
 
-  // Texto impreso en el tanque
   vicCtx.fillStyle = "#ffffff";
   vicCtx.font = "900 11px sans-serif";
   vicCtx.textAlign = "center";
   vicCtx.fillText("CRUDO NOA ➔ VACA MUERTA", -20, 15);
 
-  // Escotillas superiores del tanque
   vicCtx.fillStyle = "#2d3748";
   vicCtx.fillRect(-60, -6, 16, 6);
   vicCtx.fillRect(0, -6, 16, 6);
 
-  // 2. TRACTOR / CABINA AMERICANA CHOPPER (ROJO METALIZADO)
   let cabGrad = vicCtx.createLinearGradient(0, -15, 0, 45);
   cabGrad.addColorStop(0, "#f56565");
   cabGrad.addColorStop(0.5, "#c53030");
   cabGrad.addColorStop(1, "#742a2a");
   vicCtx.fillStyle = cabGrad;
 
-  // Capó frontal largo estilo americano
   vicCtx.fillRect(50, -5, 80, 48);
   vicCtx.fillRect(110, 8, 25, 35);
 
-  // Rejilla de radiador croma enorme
   vicCtx.fillStyle = "#edf2f7";
   vicCtx.fillRect(132, 12, 6, 30);
   ctx.fillStyle = "#1a202c";
@@ -614,35 +600,30 @@ function renderVictoryScene() {
     vicCtx.fillRect(133, g, 4, 2);
   }
 
-  // Tubos de escape cromados dobles expulsando humo
   vicCtx.fillStyle = "#e2e8f0";
   vicCtx.fillRect(55, -30, 6, 30);
   vicCtx.fillRect(63, -30, 6, 30);
 
-  // Animación de Humo de escape
   vicCtx.fillStyle = "rgba(226, 232, 240, 0.5)";
   vicCtx.beginPath();
   vicCtx.arc(58 + Math.random() * 3, -36 - (truckX % 10), 8, 0, Math.PI * 2);
   vicCtx.arc(66 + Math.random() * 3, -42 - (truckX % 12), 11, 0, Math.PI * 2);
   vicCtx.fill();
 
-  // Parabrisas ahumado con reflejo
   vicCtx.fillStyle = "#2b6cb0";
   vicCtx.fillRect(80, -2, 28, 18);
-  vicCtx.fillStyle = "#63b3ed"; // Brillo
+  vicCtx.fillStyle = "#63b3ed";
   vicCtx.beginPath();
   vicCtx.moveTo(82, -1);
   vicCtx.lineTo(95, -1);
   vicCtx.lineTo(82, 14);
   vicCtx.fill();
 
-  // Conductor con casco adentro
   vicCtx.fillStyle = "#fbd38d";
   vicCtx.fillRect(86, 5, 8, 8);
-  vicCtx.fillStyle = "#ecc94b"; // Casco EPP
+  vicCtx.fillStyle = "#ecc94b";
   vicCtx.fillRect(84, 2, 12, 4);
 
-  // Faros delanteros encendidos con haz de luz Neón
   vicCtx.fillStyle = "#fff5f5";
   vicCtx.fillRect(134, 28, 4, 8);
   
@@ -656,28 +637,23 @@ function renderVictoryScene() {
   vicCtx.lineTo(240, 65);
   vicCtx.fill();
 
-  // 3. RUEDAS ANCHAS CON LLANTAS DE ALEACIÓN CROMADAS
   const drawWheel = (wx, wy) => {
-    // Neumático
     vicCtx.fillStyle = "#0d1117";
     vicCtx.beginPath();
     vicCtx.arc(wx, wy, 13, 0, Math.PI * 2);
     vicCtx.fill();
 
-    // Llanta Croma
     vicCtx.fillStyle = "#e2e8f0";
     vicCtx.beginPath();
     vicCtx.arc(wx, wy, 7, 0, Math.PI * 2);
     vicCtx.fill();
 
-    // Centro
     vicCtx.fillStyle = "#1a202c";
     vicCtx.beginPath();
     vicCtx.arc(wx, wy, 3, 0, Math.PI * 2);
     vicCtx.fill();
   };
 
-  // Ejes del camión
   drawWheel(-70, 44);
   drawWheel(-42, 44);
   drawWheel(20, 44);
