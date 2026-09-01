@@ -2,389 +2,284 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RECUPERANDO LA CUENCA - Simulador de Petróleo y Gas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Recuperando la Cuenca - Cuenca del Noroeste</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Three.js para renderizado 3D ligero de respaldo -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
+  <div class="bg-grid"></div>
+
   <div class="game-container">
-    <div class="bg-grid"></div>
-    <div class="glow-effect"></div>
-
-    <!-- PANTALLA 1: INICIAL -->
-    <section id="startScreen" class="screen active">
+    
+    <!-- PANTALLA 1: INICIO -->
+    <div id="startScreen" class="screen active">
       <div class="panel">
-        <div class="badge">SIMULADOR DE PETRÓLEO Y GAS</div>
+        <span class="badge">SIMULADOR TÉCNICO EDUCATIVO</span>
         <h1 class="title">RECUPERANDO LA CUENCA</h1>
+        <h2 class="subtitle">Cuenca del Noroeste</h2>
         <p class="description">
-          Tomá decisiones, explorá, perforá y recuperá la producción de la Cuenca del Noroeste.
+          Asumí el rol de un/a especialista técnico/a en exploración y producción. Llevá adelante la prospección, gestioná el presupuesto y recuperá la producción de la cuenca.
         </p>
-        <button id="btnStart" class="btn btn-primary" type="button">
-          <span>COMENZAR</span>
-          <div class="btn-glow"></div>
-        </button>
-        <footer class="footer-info">
-          <span class="sub-badge">PROYECTO EDUCATIVO</span>
-          <p>"Una experiencia interactiva para conocer el mundo del Petróleo y Gas."</p>
-        </footer>
+        <button id="btnStart" class="btn">INICIAR OPERACIÓN</button>
       </div>
-    </section>
+    </div>
 
-    <!-- PANTALLA 2: NUEVA OPERACIÓN -->
-    <section id="operationScreen" class="screen">
+    <!-- PANTALLA 2: OPERACIÓN & LORE -->
+    <div id="operationScreen" class="screen">
       <div class="panel">
-        <div class="badge">ETAPA DE INICIO</div>
-        <h2 class="subtitle">NUEVA OPERACIÓN</h2>
-        <p class="description">Tu misión comienza aquí.</p>
-        <button id="btnContinue" class="btn btn-primary" type="button">
-          <span>CONTINUAR</span>
-          <div class="btn-glow"></div>
-        </button>
+        <span class="badge">INFORME DE CAMPO</span>
+        <h2 class="subtitle">CONTEXTO OPERATIVO</h2>
+        <p class="description">
+          La Cuenca del Noroeste presenta una declinación madura. Tu objetivo es utilizar métodos geofísicos y geoquímicos para maximizar la Probabilidad de Éxito (PoS), ejecutar la perforación y habilitar los pozos bloqueados mediante tus conocimientos técnicos.
+        </p>
+        <button id="btnContinue" class="btn">CONFIGURAR PERFIL</button>
       </div>
-    </section>
+    </div>
 
-    <!-- PANTALLA 3: CREACIÓN DE PERSONAJE -->
-    <section id="characterScreen" class="screen">
-      <div class="panel panel-large">
-        <div class="badge">FICHA DE PERSONAL - TÉCNICO DE CAMPO</div>
-        <h2 class="subtitle">CREACIÓN DE PERSONAJE</h2>
-        
-        <form id="characterForm" onsubmit="return false;">
-          <div class="form-group">
-            <label for="playerName" class="form-label">Nombre del Técnico/a:</label>
-            <input type="text" id="playerName" class="form-input" placeholder="Ej: Alex" maxlength="25" autocomplete="off">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Identidad / Género:</label>
-            <div class="gender-options">
-              <label class="radio-card">
-                <input type="radio" name="gender" value="Masculino">
-                <span class="radio-btn">Masculino</span>
-              </label>
-              <label class="radio-card">
-                <input type="radio" name="gender" value="Femenino">
-                <span class="radio-btn">Femenino</span>
-              </label>
-              <label class="radio-card">
-                <input type="radio" name="gender" value="No binario">
-                <span class="radio-btn">No binario</span>
-              </label>
-            </div>
-          </div>
-
-          <div class="epp-section">
-            <div class="sub-badge">EQUIPO DE PROTECCIÓN PERSONAL (EPP)</div>
-            <p class="epp-instruction">Seleccioná todo el equipamiento obligatorio para ingresar al yacimiento:</p>
-            
-            <div class="epp-grid">
-              <label class="epp-checkbox">
-                <input type="checkbox" name="epp" value="Casco de seguridad">
-                <span class="checkbox-custom"></span>
-                <span class="epp-label">Casco de Seguridad</span>
-              </label>
-              <label class="epp-checkbox">
-                <input type="checkbox" name="epp" value="Calzado de seguridad">
-                <span class="checkbox-custom"></span>
-                <span class="epp-label">Calzado de Seguridad</span>
-              </label>
-              <label class="epp-checkbox">
-                <input type="checkbox" name="epp" value="Lentes de protección">
-                <span class="checkbox-custom"></span>
-                <span class="epp-label">Lentes de Protección</span>
-              </label>
-              <label class="epp-checkbox">
-                <input type="checkbox" name="epp" value="Guantes de trabajo">
-                <span class="checkbox-custom"></span>
-                <span class="epp-label">Guantes de Trabajo</span>
-              </label>
-              <label class="epp-checkbox">
-                <input type="checkbox" name="epp" value="Ropa ignífuga">
-                <span class="checkbox-custom"></span>
-                <span class="epp-label">Ropa Ignífuga</span>
-              </label>
-              <label class="epp-checkbox">
-                <input type="checkbox" name="epp" value="Protector auditivo">
-                <span class="checkbox-custom"></span>
-                <span class="epp-label">Protector Auditivo</span>
-              </label>
-            </div>
-          </div>
-
-          <button id="btnSaveCharacter" class="btn btn-primary" type="button">
-            <span>INGRESAR AL YACIMIENTO</span>
-            <div class="btn-glow"></div>
-          </button>
-        </form>
-      </div>
-    </section>
-
-    <!-- PANTALLA 4: CONFIRMACIÓN DE INGRESO -->
-    <section id="equipmentScreen" class="screen">
+    <!-- PANTALLA 3: PERSONAJE & EPP -->
+    <div id="characterScreen" class="screen">
       <div class="panel">
-        <div class="badge">INGRESO AUTORIZADO</div>
-        <h2 class="subtitle" id="displayPlayerName">TÉCNICO DE CAMPO</h2>
-        <p class="description" id="displayPlayerDetails">EPP Verificado. Listo para la fase operacional.</p>
+        <span class="badge">REGISTRO DE INGRESO</span>
+        <h2 class="subtitle">PERFIL Y EPP OBLIGATORIO</h2>
         
-        <button id="btnEquipmentContinue" class="btn btn-primary" type="button">
-          <span>IR A EXPLORACIÓN</span>
-          <div class="btn-glow"></div>
-        </button>
-      </div>
-    </section>
+        <div class="form-group">
+          <label class="form-label" for="playerName">Nombre / Apellido del Técnico/a:</label>
+          <input type="text" id="playerName" class="form-input" placeholder="Ej. Alex Gómez">
+        </div>
 
-    <!-- PANTALLA 5: EXPLORACIÓN GEOLÓGICA -->
-    <section id="explorationScreen" class="screen">
+        <div class="form-group">
+          <label class="form-label">Género:</label>
+          <div class="gender-options">
+            <label class="radio-card">
+              <input type="radio" name="gender" value="m"> Masculino
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="gender" value="f"> Femenino
+            </label>
+          </div>
+        </div>
+
+        <div class="epp-section">
+          <label class="form-label">Equipamiento de Protección Personal (EPP Obligatorio):</label>
+          <p class="epp-instruction">Marcá todo el equipo requerido para habilitar tu ingreso al yacimiento:</p>
+          <div class="epp-grid">
+            <label class="epp-checkbox"><input type="checkbox" name="epp" value="casco"> Casco de Seguridad</label>
+            <label class="epp-checkbox"><input type="checkbox" name="epp" value="calzado"> Calzado Dieléctrico/S3</label>
+            <label class="epp-checkbox"><input type="checkbox" name="epp" value="lentes"> Lentes de Protección</label>
+            <label class="epp-checkbox"><input type="checkbox" name="epp" value="ropa"> Ropa Ignífuga</label>
+            <label class="epp-checkbox"><input type="checkbox" name="epp" value="guantes"> Guantes de Trabajo</label>
+            <label class="epp-checkbox"><input type="checkbox" name="epp" value="auditiva"> Protección Auditiva</label>
+          </div>
+        </div>
+
+        <button id="btnSaveCharacter" class="btn">CONFIRMAR Y VERIFICAR EPP</button>
+      </div>
+    </div>
+
+    <!-- PANTALLA 4: EQUIPAMIENTO & FICHA TÉCNICA -->
+    <div id="equipmentScreen" class="screen">
+      <div class="panel">
+        <span class="badge">ACREDITACIÓN APROBADA</span>
+        <h2 id="displayPlayerName" class="subtitle">TÉCNICO/A ACREDITADO/A</h2>
+        <p id="displayPlayerDetails" class="description">Equipamiento EPP completo y verificado.</p>
+
+        <div class="educational-card">
+          <h4>INFORMACIÓN DEL YACIMIENTO: APARATO DE BOMBEO MECÁNICO</h4>
+          <p>El Aparato de Bombeo Mecánico (Pumpjack/Balancín) es un sistema mecánico de superficie utilizado para levantar artificialmente el petróleo cuando la presión de fondo del yacimiento es insuficiente. Lo verás en funcionamiento directo dentro del campo de operaciones.</p>
+        </div>
+
+        <button id="btnEquipmentContinue" class="btn" style="margin-top: 15px;">IR A EXPLORACIÓN</button>
+      </div>
+    </div>
+
+    <!-- PANTALLA 5: EXPLORACIÓN & PERFORACIÓN -->
+    <div id="explorationScreen" class="screen">
       <div class="panel panel-large">
-        <div class="badge">ETAPA 2: EXPLORACIÓN Y PROSPECCIÓN</div>
-        <h2 class="subtitle">CUENCA DEL NOROESTE</h2>
-        
+        <span class="badge">FASE DE PROSPECCIÓN</span>
+        <h2 class="subtitle">ESTUDIOS GEOFÍSICOS Y PERFORACIÓN</h2>
+
         <div class="hud-stats">
-          <div class="hud-item">
+          <div>
             <span class="stat-label">PRESUPUESTO:</span>
             <span id="hudBudget" class="stat-value">$2,000,000 USD</span>
           </div>
-          <div class="hud-item">
+          <div>
             <span class="stat-label">PROBABILIDAD DE ÉXITO (PoS):</span>
             <span id="hudPoS" class="stat-value highlight-green">0%</span>
           </div>
         </div>
 
-        <p class="section-title">1. Seleccioná el Bloque Geológico:</p>
+        <div class="section-title">1. SELECCIONAR ZONA DE OBJETIVO</div>
         <div class="zones-grid">
           <div class="zone-card" data-zone="ramos">
-            <h3>Área Ramos</h3>
-            <p class="zone-desc">Riesgo Bajo. Certeza base: 30%.</p>
-            <span class="zone-cost-tag">Perforación: $800k USD</span>
+            <h3>Campo Ramos</h3>
+            <p class="zone-desc">PoS Base: 30%</p>
+            <span class="zone-cost-tag">Costo Perforación: $800,000 USD</span>
           </div>
-
           <div class="zone-card" data-zone="aguarague">
             <h3>Yacimiento Aguaragüe</h3>
-            <p class="zone-desc">Riesgo Medio. Certeza base: 20%.</p>
-            <span class="zone-cost-tag">Perforación: $1.2M USD</span>
+            <p class="zone-desc">PoS Base: 20%</p>
+            <span class="zone-cost-tag">Costo Perforación: $1,200,000 USD</span>
           </div>
-
           <div class="zone-card" data-zone="acambuco">
             <h3>Bloque Acambuco</h3>
-            <p class="zone-desc">Riesgo Alto / Gran Recurso. Certeza base: 10%.</p>
-            <span class="zone-cost-tag">Perforación: $1.5M USD</span>
+            <p class="zone-desc">PoS Base: 10%</p>
+            <span class="zone-cost-tag">Costo Perforación: $1,500,000 USD</span>
           </div>
         </div>
 
-        <p class="section-title">2. Invertí en Estudios para Incrementar la Probabilidad de Éxito:</p>
+        <div class="section-title">2. APLICAR MÉTODOS DE ESTUDIO (AUMENTAN PoS)</div>
         <div class="methods-grid">
           <div class="method-card" data-method="geoquimica">
-            <i data-lucide="flask-conical" class="method-icon"></i>
             <div class="method-info">
-              <h4>Geoquímica (+10% PoS)</h4>
-              <p>Muestreo de fluidos/gases en superficie.</p>
-              <span class="price">$30,000 USD</span>
+              <h4>Geoquímica de Superficie</h4>
+              <p>Muestreo de microfiltraciones (+10% PoS)</p>
             </div>
+            <span class="price">$30,000 USD</span>
           </div>
-
           <div class="method-card" data-method="gravimetria">
-            <i data-lucide="compass" class="method-icon"></i>
             <div class="method-info">
-              <h4>Gravimetría (+15% PoS)</h4>
-              <p>Anomalías de densidad del basamento.</p>
-              <span class="price">$50,000 USD</span>
+              <h4>Gravimetría</h4>
+              <p>Medición de densidad de roca (+15% PoS)</p>
             </div>
+            <span class="price">$50,000 USD</span>
           </div>
-
           <div class="method-card" data-method="sismica2d">
-            <i data-lucide="activity" class="method-icon"></i>
             <div class="method-info">
-              <h4>Sísmica 2D (+25% PoS)</h4>
-              <p>Perfil de fallas y trampa estratigráfica.</p>
-              <span class="price">$100,000 USD</span>
+              <h4>Sísmica 2D</h4>
+              <p>Cortes estructurales 2D (+25% PoS)</p>
             </div>
+            <span class="price">$100,000 USD</span>
           </div>
-
           <div class="method-card" data-method="sismica3d">
-            <i data-lucide="box" class="method-icon"></i>
             <div class="method-info">
-              <h4>Sísmica 3D (+40% PoS)</h4>
-              <p>Modelo 3D tridimensional de alta resolución.</p>
-              <span class="price">$200,000 USD</span>
+              <h4>Sísmica 3D</h4>
+              <p>Volumen tridimensional preciso (+40% PoS)</p>
             </div>
+            <span class="price">$200,000 USD</span>
           </div>
         </div>
 
-        <div id="seismicResult" class="seismic-result hidden">
-          <h4 id="seismicTitle">REPORTE TÉCNICO</h4>
-          <p id="seismicDetails"></p>
+        <div id="seismicResult" class="well-info-box hidden" style="margin-top:15px;">
+          <span class="info-tag" id="seismicTitle">ESTUDIO EJECUTADO</span>
+          <div class="info-details" id="seismicDetails">Detalles del estudio...</div>
         </div>
 
         <div class="exploration-actions">
-          <button id="btnRunStudy" class="btn btn-primary" type="button" disabled>
-            <span>EJECUTAR ESTUDIO</span>
-            <div class="btn-glow"></div>
-          </button>
-          
-          <button id="btnDrillWell" class="btn btn-primary" type="button" disabled>
-            <span>PERFORAR POZO DE EXPLORACIÓN</span>
-            <div class="btn-glow"></div>
-          </button>
+          <button id="btnRunStudy" class="btn btn-secondary" disabled>EJECUTAR ESTUDIO</button>
+          <button id="btnDrillWell" class="btn" disabled>PERFORAR POZO EXPLORATORIO</button>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- PANTALLA 6: MAPA TÁCTICO AMPLIADO -->
-    <section id="fieldMapScreen" class="screen">
+    <!-- PANTALLA 6: MAPA INTERACTIVO FULLSCREEN -->
+    <div id="fieldMapScreen" class="screen">
       <div class="panel panel-map">
-        <div class="badge">ETAPA 3: DESARROLLO Y PRODUCCIÓN</div>
-        <h2 class="subtitle">MAPA TÁCTICO - CUENCA DEL NOROESTE</h2>
-
         <div class="hud-stats">
-          <div class="hud-item">
-            <span class="stat-label">FONDOS:</span>
-            <span id="mapBudget" class="stat-value">$1,000,000 USD</span>
-          </div>
-          <div class="hud-item">
-            <span class="stat-label">PRODUCCIÓN:</span>
-            <span id="mapIncome" class="stat-value highlight-green">+$0 USD/seg</span>
-          </div>
-          <div class="hud-item">
+          <div>
             <span class="stat-label">POZOS ACTIVOS:</span>
-            <span id="mapWellsProgress" class="stat-value">0 / 5</span>
+            <span id="mapWellsProgress" class="stat-value highlight-green">1/5</span>
+          </div>
+          <div>
+            <span class="stat-label">PRODUCCIÓN ACTUAL:</span>
+            <span id="mapIncome" class="stat-value">1,250 bbl/d</span>
+          </div>
+          <div>
+            <span class="stat-label">DESAFÍOS RESUELTOS:</span>
+            <span id="mapQuizProgress" class="stat-value">0/4</span>
           </div>
         </div>
 
-        <!-- Ficha de Información del Nodo Seleccionado -->
-        <div id="wellInfoBox" class="well-info-box">
-          <span class="info-tag">SELECCIONÁ UN POZO EN EL MAPA</span>
-          <p id="wellInfoText" class="info-details">Hacé clic sobre las miras del mapa para ver los datos geológicos y perforar.</p>
+        <div class="well-info-box">
+          <span class="info-tag">🎮 CONTROLES Y GUÍA:</span>
+          <div id="wellInfoText" class="info-details">Usá [W][A][S][D] o el joystick táctil. Acercate a un pozo bloqueado y presioná [E] o hacé clic sobre él.</div>
         </div>
 
-        <!-- MAPA JPG DE FONDO CON POZOS SUPERPUESTOS (TAMAÑO AUMENTADO) -->
         <div class="pixel-map-wrapper">
-          <img src="assets/cuencamap.jpg" alt="Mapa de la Cuenca del Noroeste" class="map-bg-img">
-
-          <!-- Marcadores de Pozos -->
-          <div class="well-marker" data-well="1" style="top: 25%; left: 42%;">
-            <div class="well-pin"><i data-lucide="crosshair"></i></div>
-            <span class="well-tag">N-01</span>
-          </div>
-
-          <div class="well-marker" data-well="2" style="top: 40%; left: 18%;">
-            <div class="well-pin"><i data-lucide="crosshair"></i></div>
-            <span class="well-tag">N-02</span>
-          </div>
-
-          <div class="well-marker" data-well="3" style="top: 48%; left: 75%;">
-            <div class="well-pin"><i data-lucide="crosshair"></i></div>
-            <span class="well-tag">N-03</span>
-          </div>
-
-          <div class="well-marker" data-well="4" style="top: 68%; left: 35%;">
-            <div class="well-pin"><i data-lucide="crosshair"></i></div>
-            <span class="well-tag">N-04</span>
-          </div>
-
-          <div class="well-marker" data-well="5" style="top: 80%; left: 62%;">
-            <div class="well-pin"><i data-lucide="crosshair"></i></div>
-            <span class="well-tag">N-05</span>
-          </div>
-        </div>
-
-        <!-- ACCIONES Y MEJORAS -->
-        <div class="upgrades-grid">
-          <div class="upgrade-card" id="upgTrepan">
-            <i data-lucide="zap" class="upgrade-icon"></i>
-            <div class="upgrade-info">
-              <h4>Trépano PDC Diamante</h4>
-              <p>Costo de perforación -20%.</p>
-              <span class="upgrade-cost">$150,000 USD</span>
-            </div>
-          </div>
-
-          <div class="upgrade-card" id="upgPump">
-            <i data-lucide="trending-up" class="upgrade-icon"></i>
-            <div class="upgrade-info">
-              <h4>Variador VFD</h4>
-              <p>Producción por segundo +50%.</p>
-              <span class="upgrade-cost">$250,000 USD</span>
+          <canvas id="pixelCanvas"></canvas>
+          <!-- Joystick Virtual para Celular -->
+          <div id="virtualJoystick" class="virtual-joystick hidden">
+            <div id="joystickBase" class="joystick-base">
+              <div id="joystickStick" class="joystick-stick"></div>
             </div>
           </div>
         </div>
-
-        <div class="map-actions">
-          <button id="btnDrillSelectedWell" class="btn btn-primary" type="button" disabled>
-            <span>PERFORAR POZO ($0 USD)</span>
-            <div class="btn-glow"></div>
-          </button>
-          
-          <button id="btnOpen3DModal" class="btn btn-primary" type="button">
-            <span>VER PUMPJACK 3D</span>
-            <div class="btn-glow"></div>
-          </button>
-        </div>
-      </div>
-    </section>
-<div id="modal3D" class="modal-overlay hidden">
-      <div class="modal-content panel panel-3d">
-        <div class="badge">EQUIPAMIENTO DE SUPERFICIE</div>
-        <h3 class="subtitle">APARATO DE BOMBEO MECÁNICO (PUMPJACK)</h3>
-        
-        <div id="canvas3DContainer" class="canvas-container canvas-large">
-          <div class="sketchfab-embed-wrapper"> <iframe title="Oil Pumpjack - Animated" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/7c5fdd845bf54d3e80d954bd4b08c5b5/embed?autostart=1&transparent=1"> </iframe> </div>
-        </div>
-        
-        <div class="educational-card">
-          <h4><i data-lucide="book-open"></i> Ficha Técnica Educativa:</h4>
-          <p id="eduPartDesc">
-            <strong>El Aparato de Bombeo Mecánico (Pump Jack)</strong> transforma el movimiento rotacional del motor en movimiento vertical alternativo para accionar la bomba de profundidad y extraer fluidos del subsuelo.
-          </p>
-        </div>
-
-        <button id="btnClose3DModal" class="btn btn-primary" type="button">
-          <span>CERRAR VISOR</span>
-        </button>
       </div>
     </div>
 
-        <button id="btnClose3DModal" class="btn btn-primary" type="button">
-          <span>CERRAR VISOR</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- PANTALLA GAME OVER -->
-    <section id="gameOverScreen" class="screen">
-      <div class="panel panel-danger">
-        <div class="badge badge-danger">OPERACIÓN FALLIDA</div>
-        <h1 class="title title-danger">GAME OVER</h1>
-        <p class="subtitle" id="gameOverReason">POZO SECO</p>
-        <p class="description" id="gameOverDetails">
-          La perforación resultó estéril. No se hallaron hidrocarburos comerciales.
+    <!-- PANTALLA GAME OVER (POZO SECO) -->
+    <div id="gameOverScreen" class="screen">
+      <div id="gameOverPanel" class="panel">
+        <span class="badge" style="color: #ff4444;">⚠️ ALERTA DE PERFORACIÓN</span>
+        <h1 class="title title-danger">¡GAME OVER!</h1>
+        <h2 class="subtitle" style="color: #ff8888;">POZO SECO</h2>
+        <p id="gameOverDetails" class="description">
+          El pozo no arrojó la presencia esperada de hidrocarburos. La inversión se agotó.
         </p>
-        <button id="btnRestart" class="btn btn-danger" type="button">
-          <span>REINTENTAR OPERACIÓN</span>
-          <div class="btn-glow"></div>
-        </button>
+        <button id="btnRestart" class="btn btn-secondary">REINTENTAR OPERACIÓN</button>
       </div>
-    </section>
+    </div>
 
     <!-- PANTALLA DE VICTORIA -->
-    <section id="victoryScreen" class="screen">
-      <div class="panel panel-success">
-        <div class="badge badge-success">¡MISIÓN CUMPLIDA!</div>
-        <h1 class="title title-success">CUENCA RECUPERADA</h1>
-        <p class="description">
-          ¡Felicitaciones! Desarrollaste con éxito los 5 pozos estratégicos de la Cuenca del Noroeste.
-        </p>
-        <button id="btnVictoryRestart" class="btn btn-primary" type="button">
-          <span>JUGAR DE NUEVO</span>
-        </button>
-      </div>
-    </section>
+    <div id="victoryScreen" class="screen">
+      <div class="panel panel-large">
+        <div class="victory-banner">
+          <h1 class="victory-title">
+            ¡RECUPERASTE LA CUENCA DEL NOA!
+          </h1>
+          <p class="victory-next-step">🚛 PRÓXIMA PARADA: VACA MUERTA</p>
+        </div>
 
-    <div id="toast" class="toast hidden"></div>
+        <!-- Canvas para animación del camión petrolero fachero -->
+        <div class="victory-canvas-wrapper">
+          <canvas id="victoryCanvas"></canvas>
+        </div>
+        
+        <div class="hud-stats" style="margin-top: 15px;">
+          <div>
+            <span class="stat-label">POZOS ACTIVOS:</span>
+            <span id="vicActiveWells" class="stat-value highlight-green">5/5</span>
+          </div>
+          <div>
+            <span class="stat-label">DESAFÍOS RESUELTOS:</span>
+            <span id="vicQuestions" class="stat-value">4/4</span>
+          </div>
+          <div>
+            <span class="stat-label">PRODUCCIÓN FINAL:</span>
+            <span id="vicTotalProd" class="stat-value highlight-green">5,000 bbl/d</span>
+          </div>
+        </div>
+
+        <button id="btnVictoryRestart" class="btn" style="margin-top: 15px;">JUGAR DE NUEVO</button>
+      </div>
+    </div>
+
   </div>
+
+  <!-- MODAL PREGUNTAS TÉCNICAS -->
+  <div id="quizModal" class="modal-overlay hidden">
+    <div class="panel pixel-quiz-panel">
+      <span id="quizCategoryBadge" class="badge">ETAPA DE EVALUACIÓN</span>
+      <h2 id="quizTitle" class="subtitle">DESBLOQUEO DE POZO</h2>
+      
+      <div id="quizQuestionText" class="quiz-question-text">
+        Cargando pregunta...
+      </div>
+
+      <div id="quizOptionsContainer" class="quiz-options-grid"></div>
+
+      <div id="quizFeedback" class="quiz-feedback-box hidden">
+        <h4 id="quizFeedbackTitle"></h4>
+        <p id="quizFeedbackText"></p>
+        <button id="btnRetryQuiz" class="btn btn-secondary hidden" style="margin-top: 10px;">REINTENTAR</button>
+      </div>
+
+      <button id="btnCloseQuizModal" class="btn btn-secondary" style="margin-top: 12px;">CERRAR</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden">Notificación</div>
 
   <script src="script.js"></script>
 </body>
